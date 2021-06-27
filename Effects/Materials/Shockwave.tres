@@ -1,0 +1,40 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec2 center;
+uniform float wave_force;
+uniform float wave_size;
+uniform float wave_thickness;
+
+void fragment() {
+	// Calculate the screen's aspect ratio
+	float aspect_ratio = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
+
+	// Normalize UV to screen space
+	vec2 scaledUV = (SCREEN_UV - vec2(0.5, 0.0)) / vec2(aspect_ratio, 1.0) + vec2(0.5, 0.0);
+
+	// Create doughnut-shaped mask for displacement effect
+	float mask = (1.0 - smoothstep(wave_size - 0.1, wave_size, length(scaledUV - center))) *
+		smoothstep(wave_size - wave_thickness - 0.1, wave_size - wave_thickness, length(scaledUV - center));
+
+	// Calculate displacement
+	vec2 disp = normalize(scaledUV - center) * wave_force * mask;
+	vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV - disp);
+
+	// Chromatic abberation based on the displacement value
+	vec2 displacedUV = vec2(SCREEN_UV - disp);
+	color.r = texture(SCREEN_TEXTURE, displacedUV - disp).r;
+	color.g = texture(SCREEN_TEXTURE, displacedUV).g;
+	color.b = texture(SCREEN_TEXTURE, displacedUV - disp).b;
+
+	COLOR = color;
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/center = Vector2( 0.5, 0.5 )
+shader_param/wave_force = 0.174
+shader_param/wave_size = 0.276
+shader_param/wave_thickness = 0.034

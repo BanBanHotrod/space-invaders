@@ -1,0 +1,3 @@
+# Dead.gd
+extends State
+
