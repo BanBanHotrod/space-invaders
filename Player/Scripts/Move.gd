@@ -16,15 +16,15 @@ func physics_update(delta: float) -> void:
 	)
 
 	player.velocity.x = input_direction_x
-	player.velocity.y = input_direction_y
+	player.velocity.y = -input_direction_y
 	player.move_and_collide(player.velocity.normalized() * player.speed)
 	
-	print(player.velocity)
-
 	if is_equal_approx(input_direction_x, 0.0) and is_equal_approx(input_direction_y, 0.0):
 		state_machine.transition_to("Idle")
 
 	# TODO: Find a way to make multiple states calculate on the same physics
 	#		step to avoid jitter
 	if Input.is_action_pressed("action_attack"):
-		print("ATTACK")
+		weapon.attack()
+	if Input.is_action_just_released("action_attack"):
+		weapon.attack_stop()

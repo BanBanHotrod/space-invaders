@@ -1,7 +1,9 @@
 class_name Player
-extends KinematicBody2D
+extends KinematicBody
 
 
 export (float) var speed := 1.0
 
-var velocity := Vector2.ZERO
+export (NodePath) var weapon := NodePath()
+
+var velocity := Vector3.ZERO

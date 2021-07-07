@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Game/Backgrounds/Background01.png" type="Texture" id=2]
+[ext_resource path="res://Game/World.gd" type="Script" id=5]
+[ext_resource path="res://Player/Characters/Kyle/Kyle.tscn" type="PackedScene" id=6]
+
+[sub_resource type="ShaderMaterial" id=1]
+
+[node name="Root" type="Node2D"]
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+material = SubResource( 1 )
+margin_right = 360.0
+margin_bottom = 640.0
+stretch = true
+stretch_shrink = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 180, 320 )
+handle_input_locally = false
+msaa = 1
+render_target_update_mode = 3
+
+[node name="World" type="Spatial" parent="ViewportContainer/Viewport"]
+script = ExtResource( 5 )
+
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport/World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
+projection = 1
+fov = 90.0
+size = 30.0
+
+[node name="SpotLight" type="SpotLight" parent="ViewportContainer/Viewport/World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12 )
+spot_range = 50.0
+
+[node name="Background" type="Sprite3D" parent="ViewportContainer/Viewport/World"]
+transform = Transform( 1, 0, 0, 0, 0.7, 0, 0, 0, 1, 31, 0, -10 )
+texture = ExtResource( 2 )
+
+[node name="Player" parent="ViewportContainer/Viewport/World" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13, 0 )
+speed = 0.3

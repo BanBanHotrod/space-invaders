@@ -6,6 +6,8 @@ signal transitioned(state_name)
 
 export (NodePath) var initial_state := NodePath()
 
+export (NodePath) var weapon := NodePath()
+
 onready var state: State = get_node(initial_state)
 
 
