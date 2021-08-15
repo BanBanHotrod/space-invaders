@@ -42,5 +42,5 @@ transform = Transform( 1, 0, 0, 0, 0.7, 0, 0, 0, 1, 31, 0, -10 )
 texture = ExtResource( 2 )
 
 [node name="Player" parent="ViewportContainer/Viewport/World" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.444508, -12.7886, 0 )
 speed = 0.3

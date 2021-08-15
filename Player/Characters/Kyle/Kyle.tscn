@@ -12,6 +12,7 @@ extents = Vector3( 0.848462, 1.8166, 1 )
 [node name="Guitar" parent="." index="1" instance=ExtResource( 3 )]
 
 [node name="Weapon" parent="." index="2" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0 )
