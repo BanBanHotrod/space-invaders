@@ -9,15 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "KinematicBody",
+"base": "Area",
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://Enemies/Scripts/Enemy.gd"
-}, {
-"base": "KinematicBody",
-"class": "EnemyFormation",
-"language": "GDScript",
-"path": "res://EnemyFormation/Scripts/EnemyFormation.gd"
 }, {
 "base": "State",
 "class": "EnemyState",
@@ -34,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Player/Scripts/PlayerState.gd"
 }, {
-"base": "KinematicBody",
+"base": "Area",
 "class": "Projectile",
 "language": "GDScript",
 "path": "res://Projectiles/Projectile.gd"
@@ -56,7 +51,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"EnemyFormation": "",
 "EnemyState": "",
 "Player": "",
 "PlayerState": "",
@@ -69,7 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="SpaceInvaders"
-run/main_scene="res://Game/Game3D.tscn"
+run/main_scene="res://MainMenu/MainMenu.tscn"
 
 [autoload]
 
@@ -121,6 +115,7 @@ action_attack={
 3d_physics/layer_4="Obstacle"
 3d_physics/layer_5="Pickup"
 3d_physics/layer_6="EnemyProjectile"
+3d_physics/layer_7="EnemyGroup"
 
 [physics]
 
