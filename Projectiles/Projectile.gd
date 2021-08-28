@@ -1,4 +1,4 @@
-extends KinematicBody
+extends Area
 class_name Projectile
 
 
@@ -11,20 +11,28 @@ var time := 0.0
 
 
 func _ready() -> void:
-	pass
+  pass
 
 
 func move(delta: float) -> void:
-	var collision = move_and_collide(velocity.normalized() * speed * delta)
+  self.translation += self.velocity.normalized() * speed * delta
 
 
 func _process(delta: float) -> void:
-	# check lifetime
-	time += delta
+  # check lifetime
+  time += delta
 
-	if time >= max_time:
-		self.queue_free()
+  if time >= max_time:
+    self.queue_free()
 
 
 func _physics_process(delta: float) -> void:
-	move(delta)
+  move(delta)
+
+
+func _on_Area_area_entered(area):
+  match area.collision_layer:
+    0b10, 0b100000:
+      queue_free()
+    _:
+      pass
