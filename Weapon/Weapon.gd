@@ -1,5 +1,5 @@
-class_name Weapon
 extends Spatial
+class_name Weapon
 
 
 export var projectile = preload("res://Projectiles/SimpleProjectile/SimpleProjectile.tscn")

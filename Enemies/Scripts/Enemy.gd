@@ -1,8 +1,7 @@
-class_name Enemy
 extends KinematicBody
+class_name Enemy
 
 
 export (float) var speed = 1.0
 
-
-var velocity := Vector2.ZERO
+var velocity := Vector3.ZERO

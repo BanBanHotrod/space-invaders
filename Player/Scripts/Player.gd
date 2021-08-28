@@ -1,5 +1,5 @@
-class_name Player
 extends KinematicBody
+class_name Player
 
 
 export (float) var speed := 1.0

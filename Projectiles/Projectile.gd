@@ -1,5 +1,5 @@
-class_name Projectile
 extends KinematicBody
+class_name Projectile
 
 
 export (float) var speed = 1.0

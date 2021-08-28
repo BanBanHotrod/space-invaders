@@ -1,8 +1,9 @@
-class_name PlayerState
 extends State
+class_name PlayerState
 
 
 var player: Player
+
 var weapon: Weapon
 
 

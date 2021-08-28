@@ -1,5 +1,5 @@
-class_name EnemyState
 extends State
+class_name EnemyState
 
 
 # Typed reference to the player node.

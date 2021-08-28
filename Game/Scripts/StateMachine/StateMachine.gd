@@ -1,5 +1,5 @@
-class_name StateMachine
 extends Node
+class_name StateMachine
 
 
 signal transitioned(state_name)
