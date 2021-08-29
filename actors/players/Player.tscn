@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://actors/players/states/MoveState.gd" type="Script" id=1]
+[ext_resource path="res://actors/players/states/IdleState.gd" type="Script" id=2]
+[ext_resource path="res://state_machine/StateMachine.gd" type="Script" id=3]
+[ext_resource path="res://entities/assets/audio/effects/Explosion.wav" type="AudioStream" id=4]
+[ext_resource path="res://actors/players/Player.gd" type="Script" id=7]
+
+[node name="Player" type="KinematicBody"]
+collision_mask = 58
+script = ExtResource( 7 )
+sound_death = ExtResource( 4 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 3 )
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource( 2 )
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
