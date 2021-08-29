@@ -62,7 +62,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="SpaceInvaders"
+config/name="TheGreatestEverSpaceWarFoughtInSpaceEver"
 run/main_scene="res://menus/main_menu/MainMenu.tscn"
 
 [autoload]
