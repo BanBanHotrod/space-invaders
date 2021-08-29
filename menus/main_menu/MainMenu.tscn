@@ -31,16 +31,18 @@ custom_constants/separation = 120
 
 [node name="Title" type="Label" parent="VBoxContainer"]
 margin_right = 320.0
-margin_bottom = 105.0
+margin_bottom = 213.0
 custom_fonts/font = SubResource( 1 )
-text = "Space
-Invaders"
+text = "The
+Greatest
+Ever
+Space War"
 align = 1
 
 [node name="MenuOptions" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 225.0
+margin_top = 333.0
 margin_right = 320.0
-margin_bottom = 317.0
+margin_bottom = 425.0
 custom_constants/separation = 50
 alignment = 1
 
@@ -66,7 +68,7 @@ margin_bottom = 92.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
-volume_db = -12.0
+volume_db = -30.0
 
 [connection signal="pressed" from="VBoxContainer/MenuOptions/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MenuOptions/Button2" to="." method="_on_Button2_pressed"]
