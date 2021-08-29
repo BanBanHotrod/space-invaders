@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://entities/weapons/Weapon.gd" type="Script" id=1]
+[ext_resource path="res://entities/assets/audio/effects/Laser_Shoot.wav" type="AudioStream" id=2]
+
+[node name="PlayerWeapon" type="Spatial"]
+script = ExtResource( 1 )
+fire_rate = 0.3
+sound_fire = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

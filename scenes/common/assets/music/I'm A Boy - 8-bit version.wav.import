@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/I'm A Boy - 8-bit version.wav-0f8a7c85792c841198241ef1a1089bed.sample"
+
+[deps]
+
+source_file="res://scenes/common/assets/music/I'm A Boy - 8-bit version.wav"
+dest_files=[ "res://.import/I'm A Boy - 8-bit version.wav-0f8a7c85792c841198241ef1a1089bed.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0
