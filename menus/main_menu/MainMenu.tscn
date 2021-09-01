@@ -26,7 +26,7 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 40.0
 margin_right = 340.0
-margin_bottom = 627.0
+margin_bottom = 620.0
 custom_constants/separation = 60
 
 [node name="Title" type="Label" parent="VBoxContainer"]
