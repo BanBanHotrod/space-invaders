@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://actors/enemies/guitar/Guitar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://entities/enemy_pattern/enemy_pattern_rotate.gd" type="Script" id=2]
+[ext_resource path="res://entities/wave/wave.gd" type="Script" id=3]
+
+[node name="Wave2" type="Spatial"]
+script = ExtResource( 3 )
+width = 4
+column_gap = 4.0
+row_gap = 3.0
+enemy_scene = ExtResource( 1 )
+number_of_power_ups = 5
+
+[node name="Enemies" type="Spatial" parent="."]
+script = ExtResource( 2 )
