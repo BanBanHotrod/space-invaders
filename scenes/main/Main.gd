@@ -6,10 +6,11 @@ var audio_player: AudioStreamPlayer
 
 func _ready() -> void:
   Global.root = self
+  randomize()
   $AudioStreamPlayer.play()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
   if Input.is_action_pressed("ui_cancel"):
     var result_value = get_tree().change_scene("res://menus/main_menu/MainMenu.tscn")
 
