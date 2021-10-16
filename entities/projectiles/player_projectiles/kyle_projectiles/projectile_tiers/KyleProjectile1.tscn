@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/KyleProjectileSmall.tscn" type="PackedScene" id=1]
+
+[node name="KyleProjectile1" type="Spatial"]
+
+[node name="KyleProjectileSmall" parent="." instance=ExtResource( 1 )]

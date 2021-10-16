@@ -1,0 +1,23 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://entities/assets/audio/effects/Laser_Shoot.wav" type="AudioStream" id=1]
+[ext_resource path="res://entities/weapons/player_weapons/kyles_weapon/kyles_weapon.gd" type="Script" id=2]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile3.tscn" type="PackedScene" id=5]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile4.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile7.tscn" type="PackedScene" id=7]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile5.tscn" type="PackedScene" id=8]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile8.tscn" type="PackedScene" id=9]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile6.tscn" type="PackedScene" id=10]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile9.tscn" type="PackedScene" id=11]
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle_projectiles/projectile_tiers/KyleProjectile10.tscn" type="PackedScene" id=12]
+
+[node name="KylesWeapon" type="Spatial"]
+script = ExtResource( 2 )
+projectile = ExtResource( 3 )
+sound_fire = ExtResource( 1 )
+projectiles = [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 12 ) ]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
