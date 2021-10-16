@@ -8,7 +8,7 @@ func _ready():
   $AudioStreamPlayer.play()
 
 
-func _on_Button_pressed():
+func _on_Start_pressed():
   $AudioStreamPlayer.stop()
   var return_value = get_tree().change_scene("res://scenes/main/Main.tscn")
 
@@ -17,6 +17,6 @@ func _on_Button_pressed():
     get_tree().quit()
 
 
-func _on_Button2_pressed():
+func _on_Quit_pressed():
   $AudioStreamPlayer.stop()
   get_tree().quit()
