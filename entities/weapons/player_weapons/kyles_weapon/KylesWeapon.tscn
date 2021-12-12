@@ -21,3 +21,4 @@ projectiles = [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ), ExtResourc
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
+volume_db = -6.0

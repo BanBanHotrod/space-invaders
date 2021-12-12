@@ -59,7 +59,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.7718, 0 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="ViewportContainer/Viewport/World"]
 stream = ExtResource( 5 )
-volume_db = -30.0
+volume_db = -20.0
 
 [node name="Boundaries" type="StaticBody" parent="ViewportContainer/Viewport/World"]
 visible = false
