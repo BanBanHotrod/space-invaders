@@ -1,4 +1,4 @@
-extends Area
+extends KinematicBody2D
 class_name Projectile
 
 
@@ -6,16 +6,16 @@ export (float) var speed = 1.0
 export (float) var max_time = 3.0
 
 
-var velocity := Vector3(0.0, 1.0, 0.0)
+var velocity := Vector2(0.0, -1.0)
 var time := 0.0
 
 
 func _ready() -> void:
-  self.velocity = global_transform.basis.y
+  self.velocity = -global_transform.y
 
 
 func move(delta: float) -> void:
-  self.translation += self.velocity.normalized() * speed * delta
+  self.position += self.velocity.normalized() * speed * delta
 
 
 func _process(delta: float) -> void:

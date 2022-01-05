@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scenes/common/assets/models/guitar/Neck.material" type="Material" id=2]
-[ext_resource path="res://scenes/common/assets/models/guitar/Base Color.material" type="Material" id=3]
-[ext_resource path="res://scenes/common/assets/models/guitar/Outline.material" type="Material" id=4]
+[ext_resource path="res://assets/models/guitar/Neck.material" type="Material" id=2]
+[ext_resource path="res://assets/models/guitar/Base Color.material" type="Material" id=3]
+[ext_resource path="res://assets/models/guitar/Outline.material" type="Material" id=4]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Cube.002"

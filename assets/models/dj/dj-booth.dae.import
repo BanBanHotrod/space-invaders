@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/dj-booth.dae-5bbbb67d7a38a922e472ced59455f1b1.scn"
+path="res://.import/dj-booth.dae-768c190e9ca3c7f26429f623f9c0a2b2.scn"
 
 [deps]
 
-source_file="res://scenes/common/assets/models/dj/dj-booth.dae"
-dest_files=[ "res://.import/dj-booth.dae-5bbbb67d7a38a922e472ced59455f1b1.scn" ]
+source_file="res://assets/models/dj/dj-booth.dae"
+dest_files=[ "res://.import/dj-booth.dae-768c190e9ca3c7f26429f623f9c0a2b2.scn" ]
 
 [params]
 
@@ -20,6 +20,7 @@ nodes/use_legacy_names=false
 materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true
+meshes/octahedral_compression=true
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0

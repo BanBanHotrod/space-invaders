@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/Guitar.dae-bf5b4ee4c7882254283fe57e5cc565eb.scn"
+path="res://.import/Guitar.dae-1a8ef214004d694d7f93d9698cf47c6f.scn"
 
 [deps]
 
-source_file="res://scenes/common/assets/models/guitar/Guitar.dae"
-dest_files=[ "res://.import/Guitar.dae-bf5b4ee4c7882254283fe57e5cc565eb.scn" ]
+source_file="res://assets/models/guitar/Guitar.dae"
+dest_files=[ "res://.import/Guitar.dae-1a8ef214004d694d7f93d9698cf47c6f.scn" ]
 
 [params]
 
@@ -20,6 +20,7 @@ nodes/use_legacy_names=false
 materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true
+meshes/octahedral_compression=true
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0

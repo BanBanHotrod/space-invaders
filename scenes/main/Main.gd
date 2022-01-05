@@ -1,12 +1,17 @@
-extends Spatial
+extends Node2D
 
 
 var audio_player: AudioStreamPlayer
 
 
 func _ready() -> void:
+  print('_ready() called')
   Global.root = self
+  print('Global.root', Global.root)
+
+  # randomize the seed of the random number generator
   randomize()
+
   $AudioStreamPlayer.play()
 
 

@@ -27,7 +27,8 @@ func attack() -> void:
 
   Global.root.add_child(new_projectile)
 
-  new_projectile.translation = global_transform.origin
+  # new_projectile.translation = global_transform.origin
+  new_projectile.position = global_transform.origin
   fire_rate_timer = 0.0
 
 

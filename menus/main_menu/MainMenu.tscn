@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://ui/assets/fonts/upheaval/upheavtt.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/fonts/upheaval/upheavtt.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://menus/main_menu/buttons/MenuButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/common/assets/backgrounds/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/backgrounds/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/main_menu/MainMenu.gd" type="Script" id=4]
-[ext_resource path="res://scenes/common/assets/music/22 - 8 bit version.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/music/22 - 8 bit version.wav" type="AudioStream" id=5]
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
