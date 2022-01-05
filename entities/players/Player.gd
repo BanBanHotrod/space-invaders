@@ -1,4 +1,4 @@
-extends KinematicBody
+extends KinematicBody2D
 class_name Player
 
 
@@ -6,7 +6,7 @@ export (float) var speed = 1.0
 export (NodePath) var weapon
 export (AudioStreamSample) var sound_death
 
-var velocity := Vector3.ZERO
+var velocity := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -16,7 +16,7 @@ func _ready() -> void:
   assert(self.weapon != null)
   assert(self.sound_death != null)
 
-  self.velocity = Vector3.ZERO
+  self.velocity = Vector2.ZERO
 
 
 func _physics_process(_delta: float) -> void:
@@ -28,14 +28,12 @@ func _input(event):
     # convert screen space to world coordinates
 
     var mouse_position = event.position
-    var camera = get_node("/root/Root/ViewportContainer/Viewport/World/Camera")
-    var world_position = camera.project_position(mouse_position, 0)
 
-    self.transform.origin.x = world_position[0]
-    self.transform.origin.y = world_position[1]
+    self.transform.origin.x = mouse_position.x
+    self.transform.origin.y = mouse_position.y
 
 
-func _on_Area_area_entered(area):
+func _on_Area2D_area_entered(area):
   print("player area entered", area.collision_layer, area.name)
   match area.collision_layer:
     0b10:
@@ -90,7 +88,7 @@ func handle_input_movement(_delta: float) -> void:
   self.velocity = move_and_slide(self.velocity.normalized() * self.speed * _delta)
 
   if is_equal_approx(input_direction_x, 0.0) and is_equal_approx(input_direction_y, 0.0):
-    self.velocity = Vector3.ZERO
+    self.velocity = Vector2.ZERO
 
 
 func handle_input_attack() -> void:

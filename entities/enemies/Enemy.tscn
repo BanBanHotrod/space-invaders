@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://actors/enemies/Enemy.gd" type="Script" id=2]
+[ext_resource path="res://entities/enemies/Enemy.gd" type="Script" id=2]
 
 [node name="Enemy" type="Area"]
 collision_layer = 2

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://entities/assets/audio/effects/Explosion.wav" type="AudioStream" id=4]
-[ext_resource path="res://actors/players/Player.gd" type="Script" id=7]
+[ext_resource path="res://entities/players/Player.gd" type="Script" id=7]
 
 [node name="Player" type="KinematicBody"]
 collision_mask = 58

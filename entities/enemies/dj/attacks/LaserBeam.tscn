@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://actors/enemies/dj/attacks/laser_beam.gd" type="Script" id=1]
+[ext_resource path="res://entities/enemies/dj/attacks/laser_beam.gd" type="Script" id=1]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.3, 30, 0.3 )

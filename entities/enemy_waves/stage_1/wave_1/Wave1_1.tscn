@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://entities/enemy_pattern/enemy_pattern_linear.gd" type="Script" id=1]
-[ext_resource path="res://actors/enemies/guitar/Guitar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entities/enemies/guitar/Guitar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://entities/wave/wave.gd" type="Script" id=3]
 
 [node name="Wave1" type="Spatial"]

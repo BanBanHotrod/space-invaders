@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://actors/players/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://entities/players/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://entities/weapons/player_weapons/kyles_weapon/KylesWeapon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/common/assets/models/guitar/Guitar.tscn" type="PackedScene" id=3]
 
