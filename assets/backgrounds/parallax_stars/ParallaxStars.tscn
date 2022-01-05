@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/backgrounds/parallax_stars/parallax_stars.gd" type="Script" id=1]
+[ext_resource path="res://assets/backgrounds/parallax_stars/star/Star.tscn" type="PackedScene" id=2]
+
+[node name="ParallaxStars" type="Node2D"]
+script = ExtResource( 1 )
+star = ExtResource( 2 )
