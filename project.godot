@@ -9,15 +9,15 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node2D",
+"base": "KinematicBody2D",
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://entities/enemies/Enemy.gd"
 }, {
-"base": "State",
-"class": "EnemyState",
+"base": "Node2D",
+"class": "Formation",
 "language": "GDScript",
-"path": "res://entities/enemies/states/EnemyState.gd"
+"path": "res://entities/formation/formation.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",
@@ -36,7 +36,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"EnemyState": "",
+"Formation": "",
 "Player": "",
 "Projectile": "",
 "Weapon": ""
@@ -60,6 +60,10 @@ window/size/test_height=720
 window/handheld/orientation="portrait"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
+
+[global]
+
+editor=false
 
 [input]
 
@@ -91,21 +95,29 @@ action_attack={
 
 [layer_names]
 
+2d_physics/layer_1="Player"
 3d_physics/layer_1="Player"
+2d_physics/layer_2="Enemy"
 3d_physics/layer_2="Enemy"
+2d_physics/layer_3="FriendlyProjectile"
 3d_physics/layer_3="FriendlyProjectile"
+2d_physics/layer_4="Obstacle"
 3d_physics/layer_4="Obstacle"
+2d_physics/layer_5="Pickup"
 3d_physics/layer_5="Pickup"
+2d_physics/layer_6="EnemyProjectile"
 3d_physics/layer_6="EnemyProjectile"
 
 [physics]
 
 common/enable_pause_aware_picking=true
+2d/default_gravity=0
+2d/default_gravity_vector=Vector2( 0, 0 )
 
 [rendering]
 
 quality/filters/anisotropic_filter_level=1
 quality/filters/use_nearest_mipmap_filter=true
-environment/default_clear_color=Color( 0.301961, 0.301961, 0.301961, 1 )
+environment/default_clear_color=Color( 0.0156863, 0.0156863, 0.0156863, 1 )
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false

@@ -1,4 +1,4 @@
-extends Area
+extends KinematicBody2D
 
 
 func _ready():
@@ -6,7 +6,7 @@ func _ready():
 
 
 func _physics_process(_delta):
-  self.translate(Vector3(0, -0.1, 0))
+  self.translate(Vector2(0, -0.1))
 
 
 func _on_power_up_area_entered(_area):

@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://assets/backgrounds/parallax_stars/ParallaxStars.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/star-1x1.png" type="Texture" id=2]
 
 [sub_resource type="Curve" id=2]
@@ -23,8 +24,9 @@ scale_curve = SubResource( 3 )
 [node name="ParallaxStars" type="Particles2D"]
 position = Vector2( 640, 0 )
 scale = Vector2( 1.01283, 1 )
-amount = 1000
+amount = 100
 lifetime = 80.0
 speed_scale = 32.0
 process_material = SubResource( 1 )
 texture = ExtResource( 2 )
+script = ExtResource( 1 )

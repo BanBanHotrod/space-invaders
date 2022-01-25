@@ -2,59 +2,46 @@ extends KinematicBody2D
 class_name Player
 
 
-export (float) var speed = 1.0
+export (float) var speed = 0.0001
 export (NodePath) var weapon
 export (AudioStreamSample) var sound_death
 
-var velocity := Vector2.ZERO
+var previous_position = null
 
 
 func _ready() -> void:
   # TODO: make this more dynamic if needed
-  self.weapon = $Weapon
+  weapon = $Weapon
 
-  assert(self.weapon != null)
-  assert(self.sound_death != null)
+  assert($Weapon != null)
+  assert(sound_death != null)
 
-  self.velocity = Vector2.ZERO
+  previous_position = position
 
-
-func _physics_process(_delta: float) -> void:
-  self.handle_input(_delta)
-
-
-func _input(event):
-  if event is InputEventMouseMotion:
-    # convert screen space to world coordinates
-
-    var mouse_position = event.position
-
-    self.transform.origin.x = mouse_position.x
-    self.transform.origin.y = mouse_position.y
+  var return_value = Global.connect('root_initialized', self, 'on_root_initialized')
+  print(return_value)
 
 
-func _on_Area2D_area_entered(area):
-  print("player area entered", area.collision_layer, area.name)
-  match area.collision_layer:
-    0b10:
-      self.die()
-    0b100000:
-      self.die()
-    0b10000:
-      self.weapon.increment_tier()
-    _:
-      pass
+func on_root_initialized():
+  print('h')
+
+
+func _physics_process(delta: float) -> void:
+  if Global.controls:
+    handle_input(delta)
+    move_to_cursor()
+  else:
+    $Weapon.attack_stop()
 
 
 func die() -> void:
-  self.speed = 0.0
+  speed = 0.0
 
-  $AudioStreamPlayer.stream = self.sound_death
+  $AudioStreamPlayer.stream = sound_death
   $AudioStreamPlayer.play()
 
-  self.hide()
-  $CollisionShape.disabled = true
-  $Area/CollisionShape.disabled = true
+  hide()
+  $CollisionShape2D.disabled = true
 
   yield($AudioStreamPlayer, "finished")
   queue_free()
@@ -66,34 +53,27 @@ func die() -> void:
     get_tree().quit()
 
 
+func move_to_cursor():
+  var direction = get_global_mouse_position() - position
+  var collision = move_and_collide(direction)
+
+  if collision:
+    var collider = collision.collider
+
+    if collider.is_in_group('enemy'):
+      die()
+      collider.die()
+    if collider.is_in_group('projectile'):
+      die()
+
+
 func handle_input(_delta: float) -> void:
-  # disable keyboard movement
-  # handle_input_movement(_delta)
   handle_input_attack()
-
-
-func handle_input_movement(_delta: float) -> void:
-  var input_direction_x: float = (
-    Input.get_action_strength("move_right") -
-    Input.get_action_strength("move_left")
-  )
-
-  var input_direction_y: float = (
-    Input.get_action_strength("move_down") -
-    Input.get_action_strength("move_up")
-  )
-
-  self.velocity.x = input_direction_x
-  self.velocity.y = -input_direction_y
-  self.velocity = move_and_slide(self.velocity.normalized() * self.speed * _delta)
-
-  if is_equal_approx(input_direction_x, 0.0) and is_equal_approx(input_direction_y, 0.0):
-    self.velocity = Vector2.ZERO
 
 
 func handle_input_attack() -> void:
   if Input.is_action_pressed("action_attack"):
-    self.weapon.attack_start()
+    $Weapon.attack_start()
 
   if Input.is_action_just_released("action_attack"):
-    self.weapon.attack_stop()
+    $Weapon.attack_stop()

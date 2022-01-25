@@ -5,9 +5,8 @@ var audio_player: AudioStreamPlayer
 
 
 func _ready() -> void:
-  print('_ready() called')
   Global.root = self
-  print('Global.root', Global.root)
+  Global.emit_signal('root_initialized')
 
   # randomize the seed of the random number generator
   randomize()
