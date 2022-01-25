@@ -1,3 +1,0 @@
-# Diverge.gd
-extends EnemyState
-
