@@ -3,24 +3,28 @@ class_name Weapon
 
 
 export (PackedScene) var projectile
-export (bool) var automatic = true
-export (float) var fire_rate = 0.1
-export (AudioStreamSample) var sound_fire
+
+var projectile_speed := 500.0
+var cooldown := 1.0
+var cooldown_limit := 1.0
+var attacking := false
 
 
-var fire_rate_timer = 0.0
-var attacking: bool = false
+func _ready():
+  assert($AudioStreamPlayer != null)
 
 
-func _physics_process(delta: float) -> void:
-  fire_rate_timer += delta
+func _process(delta):
+  cooldown -= delta
 
-  if attacking and fire_rate_timer >= fire_rate:
+  if attacking:
     attack()
 
 
-func attack() -> void:
-  $AudioStreamPlayer.stream = sound_fire
+func attack():
+  if cooldown > 0.0:
+    return
+
   $AudioStreamPlayer.play()
 
   var new_projectile = projectile.instance()
@@ -28,12 +32,14 @@ func attack() -> void:
   Global.root.add_child(new_projectile)
 
   new_projectile.position = global_transform.origin
-  fire_rate_timer = 0.0
+  print('projectile spawned')
+  
+  cooldown = cooldown_limit
 
 
-func attack_start() -> void:
+func attack_start():
   attacking = true
 
 
-func attack_stop() -> void:
+func attack_stop():
   attacking = false

@@ -1,9 +1,13 @@
 extends Node
 
 
+const SCORE_UNTIL_REWARD := 1000
+
 var root
-var controls = true
-var total_score = 0
+var total_lives := 4
+var controls := true
+var total_score := 0
+var reward_progress := 0
 
 
 signal root_initialized
@@ -11,9 +15,19 @@ signal root_initialized
 
 func add_score(score):
   total_score += score
+  reward_progress += score
+
+  if reward_progress >= SCORE_UNTIL_REWARD:
+    add_lives(1)
+    reward_progress = 0
+  
   self.root.find_node("UI").find_node("Score").text = str(total_score)
-
-
+  
+  
+func add_lives(lives):
+  total_lives += lives
+  
+  
 signal set_stars_visibility(visible)
 func set_stars_visibility(visible: bool):
   emit_signal('set_stars_visibility', visible)

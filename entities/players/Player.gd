@@ -2,78 +2,89 @@ extends KinematicBody2D
 class_name Player
 
 
-export (float) var speed = 0.0001
-export (NodePath) var weapon
-export (AudioStreamSample) var sound_death
+export (int) var total_lives = 1
+export (PackedScene) var death_effect
 
-var previous_position = null
+onready var previous_position = null
 
 
-func _ready() -> void:
-  # TODO: make this more dynamic if needed
-  weapon = $Weapon
-
+func _ready():
   assert($Weapon != null)
-  assert(sound_death != null)
+  assert($AudioStreamPlayer != null)
+  assert($CollisionShape2DCockpit != null)
+  assert($CollisionShape2DWings != null)
+  assert(death_effect != null)
 
   previous_position = position
 
-  var return_value = Global.connect('root_initialized', self, 'on_root_initialized')
-  print(return_value)
-
-
-func on_root_initialized():
-  print('h')
-
-
-func _physics_process(delta: float) -> void:
-  if Global.controls:
-    handle_input(delta)
-    move_to_cursor()
-  else:
-    $Weapon.attack_stop()
-
-
-func die() -> void:
-  speed = 0.0
-
-  $AudioStreamPlayer.stream = sound_death
-  $AudioStreamPlayer.play()
-
-  hide()
-  $CollisionShape2D.disabled = true
-
-  yield($AudioStreamPlayer, "finished")
-  queue_free()
-
-  var return_value = get_tree().change_scene("res://menus/main_menu/MainMenu.tscn")
-
+  var return_value := Global.connect('root_initialized', self, '_on_root_initialized')
   if return_value != OK:
-    print("Error changing scene:", return_value)
+    print("Error connecting to signal:", return_value)
     get_tree().quit()
 
 
+func _on_root_initialized():
+  Global.root.connect('attack_start', self, '_on_attack_start')
+  Global.root.connect('attack_stop', self, '_on_attack_stop')
+
+
+func _physics_process(_delta):
+  if Global.controls:
+    move_to_cursor()
+
+
+func die():
+  total_lives -= 1
+
+  var death_effect_instance = death_effect.instance()
+  
+  Global.root.add_child(death_effect_instance)
+  death_effect_instance.position = position
+  
+  $CollisionShape2DCockpit.set_deferred("disabled", true)
+  $CollisionShape2DWings.set_deferred("disabled", true)
+  
+  despawn()
+
+
 func move_to_cursor():
-  var direction = get_global_mouse_position() - position
-  var collision = move_and_collide(direction)
+  var direction := get_global_mouse_position() - position
+  var collision := move_and_collide(direction)
 
   if collision:
-    var collider = collision.collider
+    var collider := collision.collider
+    print('collision from player')
 
     if collider.is_in_group('enemy'):
       die()
       collider.die()
+
     if collider.is_in_group('projectile'):
       die()
+      collider.die()
 
 
-func handle_input(_delta: float) -> void:
-  handle_input_attack()
+func teleport_to_cursor():
+  position = get_global_mouse_position()
 
 
-func handle_input_attack() -> void:
-  if Input.is_action_pressed("action_attack"):
-    $Weapon.attack_start()
+func _on_attack_start():
+  $Weapon.attack_start()
 
-  if Input.is_action_just_released("action_attack"):
-    $Weapon.attack_stop()
+
+func _on_attack_stop():
+  $Weapon.attack_stop()
+
+
+func spawn():
+  show()
+  $CollisionShape2DCockpit.disabled = false
+  $CollisionShape2DWings.disabled = false
+  set_process(true)
+
+
+func despawn():
+  hide()
+  $CollisionShape2DCockpit.disabled = true
+  $CollisionShape2DWings.disabled = true
+  set_process(false)
