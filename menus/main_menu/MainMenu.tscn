@@ -4,7 +4,7 @@
 [ext_resource path="res://menus/main_menu/buttons/MenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/backgrounds/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/main_menu/MainMenu.gd" type="Script" id=4]
-[ext_resource path="res://assets/music/22 - 8 bit version.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/music/Dishonest (8-bit).wav" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=2]
 size = 55
@@ -68,7 +68,7 @@ align = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
-volume_db = -20.0
+volume_db = -40.0
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MenuOptions/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MenuOptions/Quit" to="." method="_on_Quit_pressed"]
