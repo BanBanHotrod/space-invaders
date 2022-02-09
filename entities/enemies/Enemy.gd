@@ -4,40 +4,25 @@ class_name Enemy
 
 export (float) var speed = 1.0
 export (AudioStreamSample) var sound_death
-export (float) var attack_chance = 0.1
+export (Array, PackedScene) var power_ups = []
 
-var velocity := Vector2.ZERO
-var initial_rotation := rotation
-var random_max := 1000
-var random_threshold := 0
-
-var vertical_speed = 0.2
-var horizontal_speed = 2.0
-var time_per_direction = 2.0
-
-var health = 1.0
+onready var velocity := Vector2.ZERO
+onready var attack_cooldown := 0
+onready var health = 1.0
 
 
 signal enemy_destroyed(enemy)
 
 
 func _ready():
-  var textures_node = Global.root.get_node("Textures")
-  $Sprite.texture = textures_node.get_node("GuitarEnemy").get_texture()
-  random_threshold = random_max * attack_chance
+  assert($Timer != null)
+  assert($CollisionShape2D != null)
+  assert($AudioStreamPlayer != null)
 
-  # offset timers to avoid attack synchronization
-  # time range in seconds (0.95, 1.05)
-  var offset_wait_time = 100 / float((randi() % 400) + 1) + 0.95
-  $Timer.wait_time = offset_wait_time
+  attack_cooldown = randi() % 100
+
+  $Timer.wait_time = attack_cooldown
   $Timer.start()
-
-
-func roll_attack():
-  var random_number = randi() % random_max
-
-  if random_number < random_threshold:
-    attack()
 
 
 func attack():
@@ -55,7 +40,6 @@ func die():
   if $CollisionShape2D.disabled:
     return
 
-  $AudioStreamPlayer.stream = sound_death
   $AudioStreamPlayer.play()
 
   hide()
@@ -66,9 +50,22 @@ func die():
   queue_free()
 
   Global.add_score(10)
+  
+  if true or randi() % 200 == 0:
+    var random_powerup = randi() % power_ups.size()
+    var power_up_instance = power_ups[random_powerup].instance()
+    
+    power_up_instance.position = position
+    Global.root.add_child(power_up_instance)
+  elif power_ups.size() == 1:
+    var power_up_instance = power_ups[0].instance()
+    
+    power_up_instance.position = position
+    Global.root.add_child(power_up_instance)
 
 
 func move(move_velocity: Vector2):
+  return
   var collision = move_and_collide(move_velocity)
 
   if collision:
@@ -76,6 +73,7 @@ func move(move_velocity: Vector2):
 
     if collider.is_in_group('projectile'):
       take_damage(collider.damage)
+      collider.die()
 
     if collider.is_in_group('player'):
       die()
@@ -83,5 +81,5 @@ func move(move_velocity: Vector2):
 
 
 func _on_Timer_timeout():
-  # roll_attack()
-  pass
+  if position.y > 0:
+    attack()
