@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/models/fighter_ship_blue/fighter.dae" type="PackedScene" id=1]
+[ext_resource path="res://assets/models/fighter_ship_blue/fighter_ship_animation.tres" type="Animation" id=2]
+[ext_resource path="res://assets/models/fighter_ship_blue/fighter material.material" type="Material" id=3]
+
+[node name="FighterShip" instance=ExtResource( 1 )]
+
+[node name="fighter" parent="." index="0"]
+material_override = ExtResource( 3 )
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = "default-loop"
+reset_on_save = false
+method_call_mode = 1
+anims/default-loop = ExtResource( 2 )

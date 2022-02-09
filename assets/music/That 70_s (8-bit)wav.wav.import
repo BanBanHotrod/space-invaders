@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/That 70_s (8-bit)wav.wav-eb152001967a602e1a0d05359647f9d3.sample"
+
+[deps]
+
+source_file="res://assets/music/That 70_s (8-bit)wav.wav"
+dest_files=[ "res://.import/That 70_s (8-bit)wav.wav-eb152001967a602e1a0d05359647f9d3.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

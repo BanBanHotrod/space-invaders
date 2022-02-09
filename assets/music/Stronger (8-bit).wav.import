@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Stronger (8-bit).wav-f6dd6e0f71baa91082972f4f76aeac0e.sample"
+
+[deps]
+
+source_file="res://assets/music/Stronger (8-bit).wav"
+dest_files=[ "res://.import/Stronger (8-bit).wav-f6dd6e0f71baa91082972f4f76aeac0e.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

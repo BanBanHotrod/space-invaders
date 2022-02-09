@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Was Red (8-bit).wav-b35596d292be43bcad55db37b1948579.sample"
+
+[deps]
+
+source_file="res://assets/music/Was Red (8-bit).wav"
+dest_files=[ "res://.import/Was Red (8-bit).wav-b35596d292be43bcad55db37b1948579.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0
