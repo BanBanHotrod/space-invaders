@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/sprites/effects/player-explosion/player-explosion-1.png" type="Texture" id=1]
+[ext_resource path="res://entities/effects/explosions/players/EffectExplosionPlayer.gd" type="Script" id=2]
+[ext_resource path="res://assets/audio/effects/Explosion.wav" type="AudioStream" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": false,
+"name": "default",
+"speed": 1.0
+} ]
+
+[node name="ExplosionBrandon" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.0696409, 0.0696409 )
+frames = SubResource( 1 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
