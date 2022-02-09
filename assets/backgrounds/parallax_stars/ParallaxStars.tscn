@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/backgrounds/parallax_stars/ParallaxStars.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/star-1x1.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/star/star-1x1.png" type="Texture" id=2]
 
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0.0263158, 0.240909 ), 0.0, 5.01449, 0, 0, Vector2( 0.982456, 0.0954546 ), -5.52727, 0.0, 0, 0 ]
