@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://DJBooth.tscn" type="PackedScene" id=1]
-
-[node name="DJ" type="Spatial"]
-
-[node name="dj-booth" parent="." instance=ExtResource( 1 )]
-transform = Transform( 10, 0, 0, 0, 8.66025, -5, 0, 5, 8.66025, 0, 0, -10 )
