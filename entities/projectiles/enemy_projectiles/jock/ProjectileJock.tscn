@@ -1,22 +1,21 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/sprites/projectiles/trump/nuke.png" type="Texture" id=1]
-[ext_resource path="res://entities/projectiles/enemy_projectiles/EnemyProjectile.gd" type="Script" id=2]
+[ext_resource path="res://entities/projectiles/enemy_projectiles/EnemyProjectile.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/projectiles/jock/projectile-jock.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10.4263, 26.4544 )
+extents = Vector2( 9, 14 )
 
 [node name="Projectile" type="Area2D"]
 rotation = 3.14159
 collision_layer = 32
-script = ExtResource( 2 )
-max_time = 10.0
-accuracy_variance = 1.0
+script = ExtResource( 1 )
+speed = 300.0
+max_time = 5.0
 
 [node name="Sprite" type="Sprite" parent="."]
-rotation = 3.14159
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 1 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
