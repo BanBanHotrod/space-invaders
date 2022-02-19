@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://entities/projectiles/player_projectiles/PlayerProjectile.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/projectiles/purple_laser.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 3.07733, 19.9418 )
+
+[node name="Projectile" type="Area2D" groups=["projectile"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 1 )
+speed = 1000.0
+damage = 250.0
+accuracy_variance = 1.0
+
+[node name="Sprite" type="Sprite" parent="."]
+rotation = 1.5708
+scale = Vector2( 0.1, 0.2 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="." to="." method="_on_Projectile_body_entered"]

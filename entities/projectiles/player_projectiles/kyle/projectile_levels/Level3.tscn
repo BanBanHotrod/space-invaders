@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://entities/projectiles/player_projectiles/kyle/ProjectileKyleWeak.tscn" type="PackedScene" id=1]
+
+[node name="ProjectileKyle" type="Node2D"]
+
+[node name="Projectile" parent="." instance=ExtResource( 1 )]
+position = Vector2( -10, 0 )
+
+[node name="Projectile2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 10, 0 )
+
+[node name="Projectile3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -10 )
