@@ -4,17 +4,17 @@ extends Particles2D
 func _ready():
   var return_value = Global.connect('set_stars_visibility', self, '_on_set_stars_visibility')
   if return_value != OK:
-    print("Error connecting to signal:", return_value)
+    print('Error connecting to signal:', return_value)
     get_tree().quit()
 
   return_value = Global.connect('set_stars_speed', self, '_on_set_stars_speed')
   if return_value != OK:
-    print("Error connecting to signal:", return_value)
+    print('Error connecting to signal:', return_value)
     get_tree().quit()
 
   return_value = Global.connect('set_stars_density', self, '_on_set_stars_density')
   if return_value != OK:
-    print("Error connecting to signal:", return_value)
+    print('Error connecting to signal:', return_value)
     get_tree().quit()
 
 

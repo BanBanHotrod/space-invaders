@@ -21,7 +21,7 @@ func add_score(score):
     add_lives(1)
     reward_progress = 0
   
-  self.root.find_node("UI").find_node("Score").text = str(total_score)
+  self.root.find_node('UI').find_node('Score').text = str(total_score)
   
   
 func add_lives(lives):
