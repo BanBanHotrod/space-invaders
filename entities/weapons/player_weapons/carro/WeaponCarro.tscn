@@ -1,12 +1,26 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/audio/effects/Laser_Shoot.wav" type="AudioStream" id=1]
-[ext_resource path="res://entities/weapons/Weapon.gd" type="Script" id=2]
-[ext_resource path="res://entities/projectiles/player_projectiles/carro/ProjectileCarro.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/weapons/TieredWeapon.gd" type="Script" id=2]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/ProjectileCarroWeak.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level2.tscn" type="PackedScene" id=4]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level3.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level4.tscn" type="PackedScene" id=7]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level5.tscn" type="PackedScene" id=8]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level6.tscn" type="PackedScene" id=9]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level8.tscn" type="PackedScene" id=10]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level7.tscn" type="PackedScene" id=11]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level9.tscn" type="PackedScene" id=12]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level12.tscn" type="PackedScene" id=13]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level10.tscn" type="PackedScene" id=14]
+[ext_resource path="res://entities/projectiles/player_projectiles/carro/projectile_levels/Level11.tscn" type="PackedScene" id=15]
 
 [node name="WeaponCarro" type="Node2D"]
 script = ExtResource( 2 )
 projectile = ExtResource( 3 )
+fire_rate_levels = [ 4.17 ]
+projectile_levels = [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 13 ) ]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
