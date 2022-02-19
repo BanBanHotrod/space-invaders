@@ -1,7 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://entities/formation/formation.gd" type="Script" id=1]
+[ext_resource path="res://entities/pickups/weapon_upgrade/brandon/PickupBrandon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entities/pickups/weapon_upgrade/conrad/PickupConrad.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/pickups/weapon_upgrade/kyle/PickupKyle.tscn" type="PackedScene" id=4]
+[ext_resource path="res://entities/pickups/weapon_upgrade/carro/PickupCarro.tscn" type="PackedScene" id=5]
 
-[node name="Node2D" type="Node2D"]
+[node name="Formation" type="Node2D"]
 script = ExtResource( 1 )
-time_per_direction = 4.0
+pickups = [ ExtResource( 2 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ) ]
