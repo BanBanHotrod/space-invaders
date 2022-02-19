@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://entities/projectiles/player_projectiles/conrad/ProjectileConradWeak.tscn" type="PackedScene" id=1]
+
+[node name="ProjectileConrad" type="Node2D"]
+
+[node name="Projectile" parent="." instance=ExtResource( 1 )]
+position = Vector2( -8, -15 )
+
+[node name="Projectile2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 8, -15 )
+
+[node name="Projectile3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 20, 0 )
+rotation = 0.0349066
+
+[node name="Projectile4" parent="." instance=ExtResource( 1 )]
+position = Vector2( -20, 0 )
+rotation = -0.0349066
