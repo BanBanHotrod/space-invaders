@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://entities/weapons/enemy_weapons/dj/WeaponDJLaser.gd" type="Script" id=1]
+[ext_resource path="res://entities/projectiles/enemy_projectiles/dj/ProjectileDjLaser.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/audio/effects/Laser_Shoot.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/sprites/projectiles/red_laser.png" type="Texture" id=4]
+
+[node name="WeaponLaser" type="Node2D"]
+script = ExtResource( 1 )
+fire_rate = 3.0
+projectile = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -20.0
+
+[node name="IdleTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="SeekTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="PrepareTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 4.0
+
+[node name="TargetingLaser" type="Sprite" parent="."]
+rotation = 1.5708
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="BlinkTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
+[connection signal="timeout" from="SeekTimer" to="." method="_on_SeekTimer_timeout"]
+[connection signal="timeout" from="PrepareTimer" to="." method="_on_PrepareTimer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]
