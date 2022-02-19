@@ -1,60 +1,40 @@
 extends Weapon
 
 
-export (int) var current_tier = 0
+export (Array, float) var fire_rate_levels
+export (Array, PackedScene) var projectile_levels
 
-var weapon_tiers := [
-  {
-    "fire_rate": 0.3
-  },
-  {
-    "fire_rate": 0.28
-  },
-  {
-    "fire_rate": 0.26
-  },
-  {
-    "fire_rate": 0.24
-  },
-  {
-    "fire_rate": 0.22
-  },
-  {
-    "fire_rate": 0.2
-  },
-  {
-    "fire_rate": 0.18
-  },
-  {
-    "fire_rate": 0.16
-  },
-  {
-    "fire_rate": 0.14
-  },
-  {
-    "fire_rate": 0.2
-  },
-]
+var current_level := 0
 
 
 func _ready():
-  set_weapon_tier()
+  ._ready()
+  
+  if fire_rate_levels.size() > 0:
+    set_fire_rate(fire_rate_levels[current_level])
 
 
-func set_weapon_tier():
-  var weapon_tier = self.weapon_tiers[self.current_tier]
+func _spawn_projectile():
+  if projectile_levels.size() == 0:
+    ._spawn_projectile()
+    return
+    
+  
+  var new_projectile = projectile_levels[current_level].instance()
+  
+  Global.root.add_child(new_projectile)
+  new_projectile.position = global_transform.origin
 
-  self.projectile = self.projectiles[self.current_tier]
-  self.fire_rate = weapon_tier['fire_rate']
+
+func set_level(level):
+  current_level = level
+  
+  if current_level < fire_rate_levels.size():
+    set_fire_rate(fire_rate_levels[current_level])
 
 
-func reset_tier():
-  self.current_tier = 0
-
-
-func increment_tier():
-  if self.current_tier >= len(self.projectiles) - 1:
+func upgrade():
+  if current_level >= projectile_levels.size() - 1:
     return
 
-  self.current_tier += 1
-  set_weapon_tier()
+  set_level(current_level + 1)
