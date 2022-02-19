@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://entities/projectiles/player_projectiles/brandon/ProjectileBrandon.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/projectiles/shock/shock2.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/projectiles/shock/shock1.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/projectiles/shock/shock4.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/projectiles/shock/shock3.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 16.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.826, 385 )
+
+[node name="Projectile" type="Area2D" groups=["projectile"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 1 )
+speed = 0.0
+max_time = 0.15
+damage = 500.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -384 )
+rotation = 1.5708
+scale = Vector2( 12, 3 )
+frames = SubResource( 2 )
+frame = 3
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -385 )
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, -720 )
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[connection signal="body_entered" from="." to="." method="_on_Projectile_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
