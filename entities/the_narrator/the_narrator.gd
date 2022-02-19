@@ -11,6 +11,7 @@ enum EventType {
   CREATE_FORMATION_BLOCK,
   ENTER_SHOP,
   SLEEP,
+  ANNOUNCE_WAVE,
 }
 
 class ScriptEvent:
@@ -18,10 +19,11 @@ class ScriptEvent:
   var command = null
   var parameters = {}
 
-onready var the_script_source = 'res://entities/the_narrator/the_script.cfg'
-var the_script = []
-var sleeping: bool = false
-var line_number = 0
+onready var the_script_source := 'res://entities/the_narrator/the_script.cfg'
+var the_script := []
+var sleeping := false
+var line_number := 0
+var wave_number := 0
 
 export (Array, PackedScene) var enemies = []
 export (Array, PackedScene) var formations = []
@@ -30,7 +32,7 @@ export (Array, PackedScene) var formations = []
 func _ready():
   var return_value = Global.connect('root_initialized', self, '_on_root_initialized')
   if return_value != OK:
-    print("Error connecting to signal:", return_value)
+    print('Error connecting to signal:', return_value)
     get_tree().quit()
 
 
@@ -38,6 +40,7 @@ func _on_root_initialized():
   load_the_script()
   narrate()
   Global.disconnect('root_initialized', self, '_on_root_initialized')
+  Global.root.announcer.connect('announce_wave_completed', self, '_on_announce_wave_completed')
 
 
 func load_the_script():
@@ -45,6 +48,9 @@ func load_the_script():
 
 
 func load_file(file_path):
+  var regex = RegEx.new()
+  regex.compile('[^\\s"]+|"[^"]*"')
+
   var file = File.new()
 
   file.open(file_path, File.READ)
@@ -60,9 +66,12 @@ func load_file(file_path):
     if line.begins_with('#'):
       continue
 
-    var tokens = line.split(' ')
+    var tokens = []
 
-    if not tokens[0]:
+    for result in regex.search_all(line):
+      tokens.append(result.get_string())
+
+    if tokens.size() == 0:
       continue
 
     var script_event = create_script_event(tokens)
@@ -90,29 +99,41 @@ func create_script_event(tokens):
 
     parameters.visible = tokens[1] == 'true'
   elif command == 'stars_speed':
+    assert(tokens.size() == 2)
     type = EventType.SET_STARS_SPEED
     parameters.speed = int(tokens[1])
   elif command == 'stars_density':
+    assert(tokens.size() == 2)
     type = EventType.SET_STARS_DENSITY
+    assert(tokens.size() == 2)
     parameters.density = int(tokens[1])
   elif command == 'controls':
     type = EventType.SET_CONTROLS_ENABLED
+    assert(tokens.size() == 2)
     parameters.enabled = int(tokens[1])
-  elif command == 'create_asteroid':
+  elif command == 'asteroid':
     type = EventType.CREATE_ASTEROID
+    assert(tokens.size() == 2)
     parameters.count = int(tokens[1])
-  elif command == 'create_enemy':
+  elif command == 'enemy':
     type = EventType.CREATE_ENEMY
+    assert(tokens.size() == 2)
     parameters.enemy = int(tokens[1])
-  elif command == 'create_formation_block':
+  elif command == 'formation_block':
     type = EventType.CREATE_FORMATION_BLOCK
+    assert(tokens.size() == 5)
     parameters.formation = int(tokens[1])
     parameters.enemy = int(tokens[2])
     parameters.width = int(tokens[3])
     parameters.height = int(tokens[4])
   elif command == 'sleep':
     type = EventType.SLEEP
+    assert(tokens.size() == 2)
     parameters.time = int(tokens[1])
+  elif command == 'wave':
+    type = EventType.ANNOUNCE_WAVE
+    assert(tokens.size() == 2)
+    parameters.title = tokens[1]
 
   script_event.type = type
   script_event.command = command
@@ -123,91 +144,123 @@ func create_script_event(tokens):
 
 func narrate():
   if line_number >= the_script.size():
+    print('Warning: End of script reached')
     return
 
-  for i in range(line_number, the_script.size()):
-    var script_event = the_script[i]
+  var script_event = the_script[line_number]
 
-    if script_event.type == EventType.SET_STARS_VISIBILITY:
-      var visible = script_event.parameters.visible
+  if script_event.type == EventType.SET_STARS_VISIBILITY:
+    var visible = script_event.parameters.visible
 
-      Global.set_stars_visibility(visible)
-    elif script_event.type == EventType.SET_STARS_SPEED:
-      var speed = script_event.parameters.speed
+    Global.set_stars_visibility(visible)
+  elif script_event.type == EventType.SET_STARS_SPEED:
+    var speed = script_event.parameters.speed
 
-      Global.set_stars_speed(speed)
-    elif script_event.type == EventType.SET_STARS_DENSITY:
-      var density = script_event.parameters.density
+    Global.set_stars_speed(speed)
+  elif script_event.type == EventType.SET_STARS_DENSITY:
+    var density = script_event.parameters.density
 
-      Global.set_stars_density(density)
-    elif script_event.type == EventType.SET_CONTROLS_ENABLED:
-      var enabled = script_event.parameters.enabled
+    Global.set_stars_density(density)
+  elif script_event.type == EventType.SET_CONTROLS_ENABLED:
+    var enabled = script_event.parameters.enabled
 
-      Global.set_controls_enabled(enabled)
-    elif script_event.type == EventType.CREATE_ASTEROID:
-      var count = script_event.parameters.count
+    Global.set_controls_enabled(enabled)
+  elif script_event.type == EventType.CREATE_ASTEROID:
+    var count = script_event.parameters.count
 
-      Global.create_asteroid(count)
-    elif script_event.type == EventType.CREATE_ENEMY:
-      var enemy = script_event.parameters.enemy
+    Global.create_asteroid(count)
+  elif script_event.type == EventType.CREATE_ENEMY:
+    create_enemy(script_event)
+  elif script_event.type == EventType.CREATE_FORMATION_BLOCK:
+    create_formation_block(script_event)
+  elif script_event.type == EventType.SLEEP:
+    sleep(script_event)
+  elif script_event.type == EventType.ANNOUNCE_WAVE:
+    announce_wave(script_event)
 
-      if enemies.size() <= enemy:
-        return
+  line_number += 1
 
-      var enemy_instance = enemies[enemy].instance()
 
-      enemy_instance.position.x = 100
-      enemy_instance.position.y = 100
+func create_enemy(script_event):
+  # TODO: simplify or remove this logic
+  var enemy = script_event.parameters.enemy
 
-      Global.root.add_child(enemy_instance)
-    elif script_event.type == EventType.CREATE_FORMATION_BLOCK:
-      var formation = script_event.parameters.formation
-      var enemy = script_event.parameters.enemy
+  if enemies.size() <= enemy:
+    return
 
-      if formations.size() <= formation:
-        print('Error: Formation size %s out of bounds' % formations.size())
-        return
+  var enemy_instance = enemies[enemy].instance()
 
-      if enemies.size() <= enemy:
-        print('Error: Enemies size %s out of bounds' % enemies.size())
-        return
 
-      var formation_instance = formations[formation].instance()
-      formation_instance.position.x = 640
-      formation_instance.position.y = 0
+  enemy_instance.position.x = 640
+  enemy_instance.position.y = -150
 
-      var width = script_event.parameters.width
-      var height = script_event.parameters.height
+  Global.root.add_child(enemy_instance)
 
-      formation_instance.width = width
-      formation_instance.height = height
-      formation_instance.enemy = enemies[enemy]
 
-      Global.root.add_child(formation_instance)
-      formation_instance.create_formation()
-    elif script_event.type == EventType.SLEEP:
-      var time = script_event.parameters.time
+func create_formation_block(script_event):
+  var formation = script_event.parameters.formation
+  var enemy = script_event.parameters.enemy
 
-      sleeping = true
+  if formations.size() <= formation:
+    print('Error: Formation size %s out of bounds' % formations.size())
+    return
 
-      $Timer.wait_time = time
+  if enemies.size() <= enemy:
+    print('Error: Enemies size %s out of bounds' % enemies.size())
+    return
 
-      if not $Timer.is_connected('timeout', self, '_on_sleep_complete'):
-        var return_value = $Timer.connect('timeout', self, '_on_sleep_complete')
+  var formation_instance = formations[formation].instance()
+  formation_instance.position.x = 640
+  formation_instance.position.y = 0
 
-        if return_value != OK:
-          print("Error connecting to signal:", return_value)
-          get_tree().quit()
+  var width = script_event.parameters.width
+  var height = script_event.parameters.height
 
-      $Timer.start()
+  formation_instance.width = width
+  formation_instance.height = height
+  formation_instance.enemy = enemies[enemy]
+  
+  formation_instance.connect('formation_cleared', self, '_on_formation_cleared')
 
-      line_number += 1
-      break
+  Global.root.add_child(formation_instance)
+  formation_instance.create_formation(wave_number)
 
-    line_number += 1
+
+func sleep(script_event):
+  var time = script_event.parameters.time
+
+  sleeping = true
+
+  $Timer.wait_time = time
+
+  if not $Timer.is_connected('timeout', self, '_on_sleep_complete'):
+    var return_value = $Timer.connect('timeout', self, '_on_sleep_complete')
+
+    if return_value != OK:
+      print('Error connecting to signal:', return_value)
+      get_tree().quit()
+
+  $Timer.start()
+
+
+func announce_wave(script_event):
+  wave_number += 1
+
+  var title = script_event.parameters.title
+
+  Global.root.announce_wave(wave_number, title)
+  Global.root.music_player.play_next()
 
 
 func _on_sleep_complete():
   sleeping = false
+  narrate()
+
+
+func _on_formation_cleared():
+  narrate()
+  
+  
+func _on_announce_wave_completed():
   narrate()
 
