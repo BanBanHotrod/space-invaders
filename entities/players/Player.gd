@@ -129,11 +129,13 @@ func enable_grace():
 	grace = true
 	grace_timer.start()
 	modulate.a = 0.5
+	disable_collisions()
 
 
 func disable_grace():
 	grace = false
 	modulate.a = 1.0
+	enable_collisions()
 
 
 func _on_GraceTimer_timeout():
