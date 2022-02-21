@@ -21,6 +21,7 @@ extents = Vector2( 16, 34.4482 )
 collision_layer = 2
 collision_mask = 5
 script = ExtResource( 3 )
+total_health = 300
 attack_cooldown = 100
 random_attack_cooldown = true
 
