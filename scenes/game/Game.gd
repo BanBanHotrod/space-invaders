@@ -114,7 +114,6 @@ func set_current_player(player):
 	current_player.despawn()
 	current_player = player
 	current_player.spawn()
-	print("current player", current_player)
 
 
 func announce_wave(wave_number, title):

@@ -95,25 +95,17 @@ func load_game():
 		var save_data = parse_json(save_game.get_line())
 
 		for save_key in save_data.keys():
-			print("save key: '%s'" % save_key)
-			print("save value: '%s'" % save_data[save_key])
 			if save_key == "first_launch":
 				first_launch = save_data[save_key]
 
 	# 	var node_data = parse_json(save_game.get_line())
 	# 	var new_object = load(node_data["filename"]).instance()
 
-	# 	print("parent: ", node_data["parent"])
-
 	# 	get_node(node_data["parent"]).add_child(new_object)
-
-	# 	print(get_node(node_data["parent"]).get_children())
 
 	# 	for node_key in node_data.keys():
 	# 		if node_key == "filename" or node_key == "parent":
 	# 			continue
-
-	# 		print("node key: ", node_key, " node_value: ", node_data[node_key])
 
 	# 		# set custom key values here (like position)
 
