@@ -22,12 +22,15 @@ extents = Vector2( 19.5689, 35.5 )
 collision_layer = 2
 collision_mask = 5
 script = ExtResource( 3 )
+total_health = 200
+score = 200
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 4 )
 position = Vector2( -0.5, -35.848 )
 scale = Vector2( 0.104, 0.104 )
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -44,5 +47,7 @@ one_shot = true
 rotation = 3.14159
 projectile = ExtResource( 5 )
 
+[connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_Enemy_body_entered"]
 [connection signal="timeout" from="WeaponCooldownTimer" to="." method="_on_WeaponCooldownTimer_timeout"]
 [connection signal="timeout" from="DamageCooldownTimer" to="." method="_on_DamageCooldownTimer_timeout"]
