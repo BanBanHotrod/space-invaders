@@ -38,7 +38,7 @@ func _ready():
 
 
 func reset_attack_cooldown():
-	var next_attack_cooldown = randi() % attack_cooldown + 1
+	var next_attack_cooldown = randi() % attack_cooldown + 10
 	weapon_cooldown_timer.wait_time = next_attack_cooldown
 
 
