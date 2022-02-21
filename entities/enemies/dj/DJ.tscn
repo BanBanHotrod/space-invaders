@@ -25,7 +25,7 @@ material = ExtResource( 7 )
 collision_layer = 2
 collision_mask = 5
 script = ExtResource( 3 )
-total_health = 30000
+total_health = 1000
 score = 100000
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -37,22 +37,33 @@ frames = SubResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
 
+[node name="WeaponUFO" parent="." instance=ExtResource( 4 )]
+
+[node name="WeaponLaser" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0, 100 )
+
+[node name="WeaponVinyl" parent="." instance=ExtResource( 5 )]
+projectile = ExtResource( 8 )
+
 [node name="WeaponCooldownTimer" type="Timer" parent="."]
+wait_time = 0.162
 one_shot = true
 
 [node name="DamageCooldownTimer" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
 
-[node name="WeaponUFO" parent="." instance=ExtResource( 4 )]
+[node name="LaserWeaponTimer" type="Timer" parent="."]
+wait_time = 12.0
+one_shot = true
 
-[node name="WeaponLaser" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, 98 )
-
-[node name="WeaponVinyl" parent="." instance=ExtResource( 5 )]
-projectile = ExtResource( 8 )
+[node name="VinylWeaponTimer" type="Timer" parent="."]
+wait_time = 14.0
+one_shot = true
 
 [connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Enemy_body_entered"]
 [connection signal="timeout" from="WeaponCooldownTimer" to="." method="_on_WeaponCooldownTimer_timeout"]
 [connection signal="timeout" from="DamageCooldownTimer" to="." method="_on_DamageCooldownTimer_timeout"]
+[connection signal="timeout" from="LaserWeaponTimer" to="." method="_on_LaserWeaponTimer_timeout"]
+[connection signal="timeout" from="VinylWeaponTimer" to="." method="_on_VinylWeaponTimer_timeout"]
