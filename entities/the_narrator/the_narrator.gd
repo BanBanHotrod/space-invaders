@@ -5,7 +5,7 @@ enum EventType {
 	SET_STARS_SPEED,
 	SET_STARS_DENSITY,
 	SET_CONTROLS_ENABLED,
-	CREATE_ASTEROID,
+	CREATE_ASTEROIDS,
 	CREATE_ENEMY,
 	CREATE_FORMATION_BLOCK,
 	ENTER_SHOP,
@@ -27,6 +27,7 @@ var line_number := 0
 
 export(Array, PackedScene) var enemies = []
 export(Array, PackedScene) var formations = []
+export(PackedScene) var asteroid
 
 
 func _ready():
@@ -111,7 +112,7 @@ func create_script_event(tokens):
 		assert(tokens.size() == 2)
 		parameters.enabled = int(tokens[1])
 	elif command == "asteroid":
-		type = EventType.CREATE_ASTEROID
+		type = EventType.CREATE_ASTEROIDS
 		assert(tokens.size() == 2)
 		parameters.count = int(tokens[1])
 	elif command == "enemy":
@@ -164,10 +165,10 @@ func narrate():
 		var enabled = script_event.parameters.enabled
 
 		Global.set_controls_enabled(enabled)
-	elif script_event.type == EventType.CREATE_ASTEROID:
+	elif script_event.type == EventType.CREATE_ASTEROIDS:
 		var count = script_event.parameters.count
 
-		Global.create_asteroid(count)
+		create_asteroids(count)
 	elif script_event.type == EventType.CREATE_ENEMY:
 		create_enemy(script_event)
 	elif script_event.type == EventType.CREATE_FORMATION_BLOCK:
@@ -252,6 +253,15 @@ func announce_wave(script_event):
 	Global.root.music_player.play_next()
 
 
+func create_asteroids(count):
+	for _i in count:
+		var asteroid_instance = asteroid.instance()
+
+		asteroid_instance.connect("asteroid_destroyed", self, "_on_asteroid_destroyed")
+
+		Global.root.add_child(asteroid_instance)
+
+
 func _on_sleep_complete():
 	sleeping = false
 	narrate()
@@ -266,6 +276,15 @@ func _on_announce_wave_completed():
 	narrate()
 
 
-func _on_enemy_destroyed(destroyed_enemy, destroyed_by_player):
+func _on_enemy_destroyed(_destroyed_enemy, _destroyed_by_player):
 	Global.enemy_health_multiplier += 1
 	narrate()
+
+
+func _on_asteroid_destroyed(new_asteroids):
+	if len(new_asteroids) == 0:
+		narrate()
+		return
+
+	for new_asteroid in new_asteroids:
+		new_asteroid.connect("asteroid_destroyed", self, "_on_asteroid_destroyed")
