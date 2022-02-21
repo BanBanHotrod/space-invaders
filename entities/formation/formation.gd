@@ -115,3 +115,7 @@ func _on_enemy_destroyed(destroyed_enemy, killed_by_player):
 
 			if total_enemies <= 0:
 				emit_signal("formation_cleared")
+
+
+func _on_AggressionTimer_timeout():
+	velocity.y = vertical_speed
