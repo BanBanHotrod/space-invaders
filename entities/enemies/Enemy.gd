@@ -4,10 +4,11 @@ class_name Enemy
 export(int) var total_health = 100
 export(int) var score = 100
 export(bool) var auto_attack = true
+export(int) var attack_cooldown := 0
+export(bool) var random_attack_cooldown := false
 
 var pickup = null
 var velocity := Vector2.ZERO
-var attack_cooldown := 0
 var invincible := false
 
 onready var weapon_cooldown_timer = $WeaponCooldownTimer
@@ -30,10 +31,15 @@ func _ready():
 	assert(animated_sprite != null)
 
 	if auto_attack:
-		attack_cooldown = randi() % 100 + 1
+		if random_attack_cooldown:
+			reset_attack_cooldown()
 
-		weapon_cooldown_timer.wait_time = attack_cooldown
 		weapon_cooldown_timer.start()
+
+
+func reset_attack_cooldown():
+	var random_attack_cooldown = randi() % attack_cooldown + 1
+	weapon_cooldown_timer.wait_time = attack_cooldown
 
 
 func attack():
@@ -105,6 +111,9 @@ func _on_DamageCooldownTimer_timeout():
 func _on_WeaponCooldownTimer_timeout():
 	if position.y > 0:
 		attack()
+
+	if random_attack_cooldown:
+		reset_attack_cooldown()
 
 	weapon_cooldown_timer.start()
 

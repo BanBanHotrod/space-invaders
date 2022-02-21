@@ -24,6 +24,8 @@ collision_mask = 5
 script = ExtResource( 3 )
 total_health = 200
 score = 200
+attack_cooldown = 100
+random_attack_cooldown = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 4 )
