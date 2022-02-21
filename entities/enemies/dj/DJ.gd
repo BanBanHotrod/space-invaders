@@ -34,19 +34,18 @@ func _process(delta):
 		weapon_cooldown_timer.wait_time = 0.01
 		weapon_cooldown_timer.start()
 		animated_sprite.play()
-	#Global.root.boss_health_bar_parent.show()
+	Global.root.boss_health_bar_parent.show()
 
 
-func die(killed_by_player = true):
-	#Global.root.boss_health_bar_parent.hide()
+func die(killed_by_player = false):
+	Global.root.boss_health_bar_parent.hide()
 	pass
 
 
 func take_damage(damage):
 	.take_damage(damage)
 
-
-#Global.root.boss_health_bar.rect_scale.x = 0.5
+	Global.root.boss_health_bar.rect_scale.x = health / total_health
 
 
 func attack():
