@@ -4,7 +4,6 @@ class_name Projectile
 export(float) var speed = 100.0
 export(float) var max_time = 3.0
 export(float) var damage = 100.0
-export(bool) var position_globally = true
 export(float) var accuracy_variance = 0.0
 
 var time := 0.0
@@ -13,7 +12,7 @@ var time := 0.0
 func _ready():
 	assert($CollisionShape2D != null)
 
-	if accuracy_variance:
+	if accuracy_variance > 0:
 		var deviation = (
 			(randi() % int(accuracy_variance * 100 * 2) - int(accuracy_variance * 100))
 			/ 666.0
