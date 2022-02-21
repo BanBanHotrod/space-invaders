@@ -22,11 +22,14 @@ func _ready():
 	assert(laser_weapon != null)
 	assert(vinyl_weapon != null)
 
+	invincible = true
+
 
 func _process(delta):
 	if position.y < 100:
 		position += Vector2(0, entrance_speed) * delta
 	elif not in_position and position.y >= 100:
+		invincible = false
 		in_position = true
 		weapon_cooldown_timer.wait_time = 0.01
 		weapon_cooldown_timer.start()

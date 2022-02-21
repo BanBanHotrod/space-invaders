@@ -8,6 +8,7 @@ export(bool) var auto_attack = true
 var pickup = null
 var velocity := Vector2.ZERO
 var attack_cooldown := 0
+var invincible := false
 
 onready var weapon_cooldown_timer = $WeaponCooldownTimer
 onready var damage_cooldown_timer = $DamageCooldownTimer
@@ -40,6 +41,9 @@ func attack():
 
 
 func take_damage(damage):
+	if invincible:
+		return
+
 	health -= damage
 
 	if health <= 0:
