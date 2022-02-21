@@ -6,8 +6,8 @@ signal formation_cleared
 export(Array, PackedScene) var pickups = []
 export(float) var entrance_speed := 50
 
-var vertical_speed := 20.0
-var horizontal_speed := 40.0
+var vertical_speed := 10.0
+var horizontal_speed := 20.0
 var width := 10
 var height := 50
 var enemy: PackedScene = null
@@ -31,7 +31,7 @@ func _process(delta):
 			velocity = Vector2(0, entrance_speed)
 		else:
 			in_position = true
-			velocity = Vector2(horizontal_speed, vertical_speed)
+			velocity = Vector2(horizontal_speed, 0)
 			for enemy_instance in enemies:
 				enemy_instance.invincible = false
 	else:
@@ -97,7 +97,7 @@ func create_formation():
 
 	var enemy_height = enemies[0].get_height()
 
-	in_position_height = (enemy_height + vertical_gap) * height / 2
+	in_position_height = (vertical_gap * height / 2) + (vertical_gap * 1.5)
 	set_process(true)
 
 
