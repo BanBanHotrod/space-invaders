@@ -75,7 +75,7 @@ func respawn_player():
 			next_player.spawn()
 			next_player.enable_grace()
 		else:
-			var return_value := get_tree().change_scene("res://menus/main_menu/MainMenu.tscn")
+			var return_value := get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
 
 			if return_value != OK:
 				print("Error changing scene:", return_value)
@@ -103,7 +103,7 @@ func process_input():
 		emit_signal("input_attack_stop")
 
 	if Input.is_action_pressed("ui_cancel"):
-		var result_value = get_tree().change_scene("res://menus/main_menu/MainMenu.tscn")
+		var result_value = get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
 
 		if result_value != OK:
 			get_tree().quit()

@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://themes/main_theme.tres" type="Theme" id=1]
-[ext_resource path="res://menus/main_menu/buttons/MenuButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/main_menu/buttons/MenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/backgrounds/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=3]
-[ext_resource path="res://menus/main_menu/MainMenu.gd" type="Script" id=4]
+[ext_resource path="res://scenes/main_menu/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://assets/music/Dishonest (8-bit).wav" type="AudioStream" id=5]
 
 [node name="MainMenu" type="Node2D"]
