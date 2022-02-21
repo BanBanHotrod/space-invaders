@@ -6,6 +6,7 @@ export(int) var score = 100
 export(bool) var auto_attack = true
 export(int) var attack_cooldown := 0
 export(bool) var random_attack_cooldown := false
+export(PackedScene) var death_effect
 
 var pickup = null
 var velocity := Vector2.ZERO
@@ -31,15 +32,8 @@ func _ready():
 	assert(animated_sprite != null)
 
 	if auto_attack:
-		if random_attack_cooldown:
-			reset_attack_cooldown()
 
 		weapon_cooldown_timer.start()
-
-
-func reset_attack_cooldown():
-	var next_attack_cooldown = randi() % attack_cooldown + 10
-	weapon_cooldown_timer.wait_time = next_attack_cooldown
 
 
 func attack():
@@ -80,6 +74,12 @@ func die(killed_by_player = false):
 		pickup_instance.position = position
 		Global.root.add_child(pickup_instance)
 
+	if death_effect != null:
+		var death_effect_instance = death_effect.instance()
+
+		death_effect_instance.position = position
+		Global.root.add_child(death_effect_instance)
+
 
 func move(move_velocity):
 	position += move_velocity
@@ -119,10 +119,13 @@ func _on_DamageCooldownTimer_timeout():
 
 func _on_WeaponCooldownTimer_timeout():
 	if position.y > 0:
-		attack()
+		if random_attack_cooldown:
+			var attack_roll = randi() % Global.root.enemy_attack_chance
 
-	if random_attack_cooldown:
-		reset_attack_cooldown()
+			if attack_roll == 0:
+				attack()
+		else:
+			attack()
 
 	weapon_cooldown_timer.start()
 
