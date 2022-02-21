@@ -43,6 +43,9 @@ func reset_attack_cooldown():
 
 
 func attack():
+	if invincible:
+		return
+
 	weapon.attack()
 
 
@@ -78,7 +81,7 @@ func die(killed_by_player = false):
 		Global.root.add_child(pickup_instance)
 
 
-func move(move_velocity: Vector2):
+func move(move_velocity):
 	position += move_velocity
 	if position.y < 0:
 		disable_collision()
@@ -99,6 +102,12 @@ func enable_collision():
 
 func disable_collision():
 	collision_shape_2d.set_deferred("disabled", true)
+
+
+func get_height():
+	var frame_texture = animated_sprite.frames.get_frame("default", 0)
+
+	return frame_texture.get_height() * animated_sprite.scale.y
 
 
 func _on_DamageCooldownTimer_timeout():

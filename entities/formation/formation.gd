@@ -4,6 +4,7 @@ class_name Formation
 signal formation_cleared
 
 export(Array, PackedScene) var pickups = []
+export(float) var entrance_speed := 50
 
 var vertical_speed := 20.0
 var horizontal_speed := 40.0
@@ -16,15 +17,30 @@ var horizontal_gap := 50
 var vertical_gap := 80
 var score_multiplier := 1
 var velocity := Vector2.ZERO
+var in_position := false
+var in_position_height := 0
+
+
+func _ready():
+	set_process(false)
 
 
 func _process(delta):
-	if velocity.x > 0:
-		if position.x + int(width / 2.0) * horizontal_gap >= get_viewport_rect().size.x:
-			velocity.x *= -1
-	elif velocity.x < 0:
-		if position.x - int(width / 2.0) * horizontal_gap - horizontal_gap <= 0:
-			velocity.x *= -1
+	if not in_position:
+		if position.y < in_position_height:
+			velocity = Vector2(0, entrance_speed)
+		else:
+			in_position = true
+			velocity = Vector2(horizontal_speed, vertical_speed)
+			for enemy_instance in enemies:
+				enemy_instance.invincible = false
+	else:
+		if velocity.x > 0:
+			if position.x + int(width / 2.0) * horizontal_gap >= get_viewport_rect().size.x:
+				velocity.x *= -1
+		elif velocity.x < 0:
+			if position.x - int(width / 2.0) * horizontal_gap - horizontal_gap <= 0:
+				velocity.x *= -1
 
 	position += velocity * delta
 
@@ -51,8 +67,6 @@ func create_formation():
 	# 	horizontal_speed + (10 * Global.wave_number), vertical_speed + (20 * Global.wave_number)
 	# )
 
-	velocity = Vector2(horizontal_speed, vertical_speed)
-
 	for y in height:
 		for x in width:
 			var enemy_instance = enemy.instance()
@@ -70,9 +84,7 @@ func create_formation():
 				* (Global.enemy_health_multiplier)
 			)
 			enemy_instance.health = enemy_instance.total_health
-
-			if y == 0 and x == 0:
-				print(enemy_instance.health)
+			enemy_instance.invincible = true
 
 			enemies.append(enemy_instance)
 
@@ -82,6 +94,11 @@ func create_formation():
 
 	total_enemies = enemies.size()
 	score_multiplier = 1 + Global.wave_number
+
+	var enemy_height = enemies[0].get_height()
+
+	in_position_height = (enemy_height + vertical_gap) * height / 2
+	set_process(true)
 
 
 func _on_enemy_destroyed(destroyed_enemy, killed_by_player):
