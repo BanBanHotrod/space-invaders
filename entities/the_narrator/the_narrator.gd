@@ -189,6 +189,7 @@ func create_enemy(script_event):
 
 	var enemy_instance = enemies[enemy].instance()
 
+	enemy_instance.connect("enemy_destroyed", self, "_on_enemy_destroyed")
 	enemy_instance.position.x = 640
 	enemy_instance.position.y = -150
 
@@ -262,4 +263,9 @@ func _on_formation_cleared():
 
 
 func _on_announce_wave_completed():
+	narrate()
+
+
+func _on_enemy_destroyed(destroyed_enemy, destroyed_by_player):
+	Global.enemy_health_multiplier += 1
 	narrate()

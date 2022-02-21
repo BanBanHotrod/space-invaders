@@ -46,9 +46,12 @@ func create_formation():
 	if height > 1:
 		pickup_y = randi() % (height - 1)
 
-	velocity = Vector2(
-		horizontal_speed + (10 * Global.wave_number), vertical_speed + (20 * Global.wave_number)
-	)
+	# this isn't fun
+	# velocity = Vector2(
+	# 	horizontal_speed + (10 * Global.wave_number), vertical_speed + (20 * Global.wave_number)
+	# )
+
+	velocity = Vector2(horizontal_speed, vertical_speed)
 
 	for y in height:
 		for x in width:
