@@ -55,4 +55,4 @@ func _spawn_projectile():
 
 	Global.root.add_child(new_projectile)
 	new_projectile.rotation = rotation
-	new_projectile.position = global_transform.origin
+	new_projectile.position = global_position

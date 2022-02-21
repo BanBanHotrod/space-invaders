@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/sprites/projectiles/red_laser.png" type="Texture" id=4]
 
 [node name="WeaponLaser" type="Node2D"]
+rotation = 3.14159
 script = ExtResource( 1 )
 fire_rate = 3.0
 projectile = ExtResource( 2 )
@@ -15,24 +16,30 @@ stream = ExtResource( 3 )
 volume_db = -20.0
 
 [node name="IdleTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 2.0
+one_shot = true
 
 [node name="SeekTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 5.0
+one_shot = true
 
 [node name="PrepareTimer" type="Timer" parent="."]
-wait_time = 2.0
+one_shot = true
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 4.0
+one_shot = true
 
 [node name="TargetingLaser" type="Sprite" parent="."]
-rotation = 1.5708
+rotation = -1.5708
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 4 )
+centered = false
+offset = Vector2( 0, -38 )
 
 [node name="BlinkTimer" type="Timer" parent="."]
 wait_time = 0.1
+one_shot = true
 
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
 [connection signal="timeout" from="SeekTimer" to="." method="_on_SeekTimer_timeout"]

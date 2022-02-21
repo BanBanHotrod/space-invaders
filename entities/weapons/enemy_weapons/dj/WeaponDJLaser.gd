@@ -16,6 +16,7 @@ onready var targeting_laser = $TargetingLaser
 
 var weapon_state = WeaponState.IDLE
 var weapon_enabled := false
+var rotation_speed := 100.0
 
 
 func _ready():
@@ -37,30 +38,55 @@ func enable_weapon():
 	weapon_enabled = true
 
 
-func _process(_delta):
+func disable_weapon():
+	set_process(false)
+	idle_timer.stop()
+	seek_timer.stop()
+	prepare_timer.stop()
+	attack_timer.stop()
+	weapon_enabled = false
+
+
+func _process(delta):
 	var player = Global.root.current_player
 
 	if weapon_state == WeaponState.IDLE:
+		# do nothing
 		pass
 	elif weapon_state == WeaponState.SEEK_PLAYER:
-		look_at_player()
-		targeting_laser.scale.x = global_position.distance_to(player.global_position) / 400
-		targeting_laser.global_position = lerp(global_position, player.global_position, 0.5)
+		targeting_laser.scale.x = 2.0
+		turn_to_player(delta)
 
-	# draw targeting laser
 	elif weapon_state == WeaponState.PREPARE_ATTACK:
-		look_at_player()
 		# blink targeting laser
 		pass
 	elif weapon_state == WeaponState.ATTACK:
 		attack()
 
 
+func turn_to_player(delta):
+	var player = Global.root.current_player
+	var weapon_direction = Vector2.UP.rotated(rotation)
+	var direction_to_player = player.global_position - global_position
+	var angle_to_player = rad2deg(weapon_direction.angle_to(direction_to_player))
+
+	if abs(angle_to_player) < 4:
+		targeting_laser.scale.x = (
+			global_position.distance_to(player.global_position)
+			/ targeting_laser.texture.get_width()
+		)
+		look_at_player()
+	elif angle_to_player < 0:
+		rotate(-deg2rad(rotation_speed * delta))
+	else:
+		rotate(deg2rad(rotation_speed * delta))
+
+
 func look_at_player():
 	var player = Global.root.current_player
 
 	if player != null:
-		look_at(player.position)
+		look_at(player.global_position)
 		rotate(deg2rad(90))
 
 
@@ -71,30 +97,26 @@ func _on_IdleTimer_timeout():
 		targeting_laser.show()
 		weapon_state = WeaponState.SEEK_PLAYER
 		seek_timer.start()
-		print("SEEK")
 	else:
 		idle_timer.start()
-		print("IDLE")
 
 
 func _on_SeekTimer_timeout():
 	weapon_state = WeaponState.PREPARE_ATTACK
 	prepare_timer.start()
 	blink_timer.start()
-	print("PREPARE")
 
 
 func _on_PrepareTimer_timeout():
-	targeting_laser.hide()
 	weapon_state = WeaponState.ATTACK
+	targeting_laser.hide()
 	attack_timer.start()
-	print("ATTACK")
 
 
 func _on_AttackTimer_timeout():
 	weapon_state = WeaponState.IDLE
 	idle_timer.start()
-	print("IDLE")
+	rotation = deg2rad(180)
 
 
 func _on_BlinkTimer_timeout():
