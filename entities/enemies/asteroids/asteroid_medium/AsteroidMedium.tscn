@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/materials/hurt.tres" type="Material" id=1]
+[ext_resource path="res://entities/enemies/asteroids/asteroid_medium/AsteroidMedium.gd" type="Script" id=2]
+[ext_resource path="res://entities/enemies/asteroids/asteroid_small/AsteroidSmall.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/sprites/enemies/asteroid/asteroid.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 1.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 52, 65 )
+
+[node name="Enemy" type="KinematicBody2D" groups=["enemy"]]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource( 2 )
+total_health = 5000
+score = 1000
+debris = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = ExtResource( 1 )
+position = Vector2( -3, 5 )
+scale = Vector2( 5, 5 )
+frames = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="WeaponCooldownTimer" type="Timer" parent="."]
+
+[node name="DamageCooldownTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[connection signal="timeout" from="WeaponCooldownTimer" to="." method="_on_WeaponCooldownTimer_timeout"]
+[connection signal="timeout" from="DamageCooldownTimer" to="." method="_on_DamageCooldownTimer_timeout"]
