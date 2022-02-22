@@ -1,16 +1,39 @@
 extends Node2D
 
-var audio_player: AudioStreamPlayer
+onready var audio_stream_player = $AudioStreamPlayer
+onready var camera_2d = $Camera2D
+onready var timer = $Timer
+
 var first_launch := true
+var in_position := false
+var camera_velocity := Vector2(0, 100)
 
 
 func _ready():
+	assert(audio_stream_player != null)
+	assert(camera_2d != null)
+	assert(timer != null)
+
 	load_game()
-	$AudioStreamPlayer.play()
+	audio_stream_player.play()
+
+	if first_launch:
+		camera_2d.position.y = -2484
+	else:
+		in_position = true
+
+
+func _process(delta):
+	if not in_position:
+		if camera_2d.position.y < -360:
+			camera_2d.position += camera_velocity * delta
+		else:
+			in_position = true
+			timer.start()
 
 
 func _on_Start_pressed():
-	$AudioStreamPlayer.stop()
+	audio_stream_player.stop()
 
 	if first_launch:
 		first_launch = false
@@ -27,7 +50,7 @@ func _on_Start_pressed():
 
 
 func _on_Quit_pressed():
-	$AudioStreamPlayer.stop()
+	audio_stream_player.stop()
 	save_game()
 	get_tree().quit()
 
@@ -112,3 +135,7 @@ func load_game():
 	# 		new_object.set(node_key, node_data[node_key])
 
 	save_game.close()
+
+
+func _on_Timer_timeout():
+	camera_2d.position.y = 360

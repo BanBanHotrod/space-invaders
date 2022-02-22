@@ -1,19 +1,87 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://themes/main_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/main_menu/buttons/MenuButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/backgrounds/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/effects/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/main_menu/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://assets/music/Dishonest (8-bit).wav" type="AudioStream" id=5]
+[ext_resource path="res://themes/title_theme.tres" type="Theme" id=6]
 
 [node name="MainMenu" type="Node2D" groups=["Persist"]]
 script = ExtResource( 4 )
 
-[node name="ParallaxStars" parent="." instance=ExtResource( 3 )]
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_top = -2120.0
 margin_right = 1280.0
 margin_bottom = 720.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 2265.0
+theme = ExtResource( 6 )
+text = "THE GREATEST
+
+
+
+
+
+EVER
+
+
+
+
+
+SPACE WAR
+
+
+
+
+
+
+
+
+
+
+
+
+FOUGHT IN SPACE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EVER
+
+
+
+
+
+
+
+
+
+
+"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 2269.0
+margin_right = 1280.0
+margin_bottom = 2669.0
 custom_constants/margin_right = 0
 custom_constants/margin_top = 40
 custom_constants/margin_left = 200
@@ -22,43 +90,47 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 margin_left = 200.0
 margin_top = 40.0
 margin_right = 1280.0
-margin_bottom = 700.0
+margin_bottom = 380.0
 custom_constants/separation = 130
 alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="MenuOptions" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_left = 264.0
-margin_right = 344.0
-margin_bottom = 660.0
+[node name="MenuOptions" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+margin_left = 224.0
+margin_right = 304.0
+margin_bottom = 340.0
 custom_constants/separation = 50
 alignment = 1
 
-[node name="Start" parent="MarginContainer/VBoxContainer/MenuOptions" instance=ExtResource( 2 )]
-margin_top = 277.0
+[node name="Start" parent="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
+margin_top = 117.0
 margin_right = 80.0
-margin_bottom = 305.0
+margin_bottom = 145.0
 text = "Start"
 
-[node name="Quit" parent="MarginContainer/VBoxContainer/MenuOptions" instance=ExtResource( 2 )]
-margin_top = 355.0
+[node name="Quit" parent="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
+margin_top = 195.0
 margin_right = 80.0
-margin_bottom = 383.0
+margin_bottom = 223.0
 text = "Quit"
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_left = 474.0
-margin_top = 209.0
-margin_right = 816.0
-margin_bottom = 451.0
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+margin_left = 434.0
+margin_right = 856.0
+margin_bottom = 340.0
 theme = ExtResource( 1 )
 text = "The Greatest
-Ever Space
-War Fought
-In Space
+Ever
+Space War
+
+Fought In Space
+
 Ever"
 align = 1
 
@@ -66,5 +138,17 @@ align = 1
 stream = ExtResource( 5 )
 volume_db = -40.0
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/MenuOptions/Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/MenuOptions/Quit" to="." method="_on_Quit_pressed"]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 640, 360 )
+current = true
+
+[node name="ParallaxStars" parent="Camera2D" instance=ExtResource( 3 )]
+position = Vector2( 0, -360 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
