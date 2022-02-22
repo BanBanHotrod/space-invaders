@@ -73,8 +73,10 @@ func move_to_cursor():
 	var direction := get_global_mouse_position() - position
 	var collision := move_and_collide(direction)
 
+	
 	if not grace and collision:
 		var collider := collision.collider
+		print(collider)
 
 		if collider.is_in_group("enemy"):
 			die()
@@ -82,6 +84,10 @@ func move_to_cursor():
 
 		if collider.is_in_group("projectile"):
 			die()
+			collider.die()
+
+		if collider.is_in_group("points"):
+			Global.add_score(collider.score)
 			collider.die()
 
 
