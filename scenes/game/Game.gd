@@ -46,10 +46,12 @@ func _ready():
 	players.append(player_conrad)
 	players.append(player_kyle)
 
+	var random_player_index = randi() % 4
+	
 	for player in players:
 		player.despawn()
 
-	current_player = player_conrad
+	current_player = players[random_player_index]
 	current_player.spawn()
 
 	randomize()
@@ -85,11 +87,22 @@ func respawn_player():
 
 
 func get_next_player():
+	var has_remaining_players := false
+
 	for player in players:
 		if player.total_lives > 0:
-			return player
+			has_remaining_players = true
+			break
 
-	return null
+	if not has_remaining_players:
+		return null
+
+	while 1:
+		var random_player_index = randi() % players.size()
+		var player = players[random_player_index]
+
+		if player.total_lives > 0:
+			return player
 
 
 func process_input():

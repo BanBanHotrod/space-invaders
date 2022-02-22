@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://entities/enemies/dj/DJ.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/fonts/upheaval/upheavtt.ttf" type="DynamicFontData" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://entities/formation/Formation.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/players/brandon/PlayerBrandon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/game/Game.gd" type="Script" id=8]
-[ext_resource path="res://assets/backgrounds/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=9]
+[ext_resource path="res://entities/effects/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=9]
 [ext_resource path="res://entities/players/carro/PlayerCarro.tscn" type="PackedScene" id=10]
 [ext_resource path="res://entities/players/conrad/PlayerConrad.tscn" type="PackedScene" id=11]
 [ext_resource path="res://entities/enemies/trump/Trump.tscn" type="PackedScene" id=12]
@@ -19,12 +19,14 @@
 [ext_resource path="res://assets/sprites/jccc-skull.png" type="Texture" id=17]
 [ext_resource path="res://entities/announcer/Announcer.tscn" type="PackedScene" id=18]
 [ext_resource path="res://entities/music_player/MusicPlayer.tscn" type="PackedScene" id=19]
+[ext_resource path="res://entities/enemies/asteroids/asteroid_large/AsteroidLarge.tscn" type="PackedScene" id=20]
+[ext_resource path="res://entities/points/Cookie.tscn" type="PackedScene" id=21]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 360 )
+extents = Vector2( 360, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 360 )
+extents = Vector2( 360, 10 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 640, 10 )
@@ -43,6 +45,7 @@ script = ExtResource( 8 )
 script = ExtResource( 5 )
 enemies = [ ExtResource( 3 ), ExtResource( 12 ), ExtResource( 1 ) ]
 formations = [ ExtResource( 6 ) ]
+asteroid = ExtResource( 20 )
 
 [node name="Timer" type="Timer" parent="The Narrator"]
 
@@ -51,35 +54,44 @@ formations = [ ExtResource( 6 ) ]
 [node name="ParallaxStars" parent="." instance=ExtResource( 9 )]
 speed_scale = 64.0
 
-[node name="Boundaries" type="Area2D" parent="."]
+[node name="Boundaries" type="StaticBody2D" parent="."]
 collision_layer = 8
-collision_mask = 67
+collision_mask = 66
 
-[node name="BoundaryLeft" type="CollisionShape2D" parent="Boundaries"]
+[node name="BoundaryLeft" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
 position = Vector2( -10, 360 )
+rotation = 1.5708
 shape = SubResource( 1 )
+one_way_collision_margin = 0.0
 
-[node name="BoundaryRight" type="CollisionShape2D" parent="Boundaries"]
+[node name="BoundaryRight" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
 position = Vector2( 1290, 360 )
+rotation = -1.5708
 shape = SubResource( 2 )
 
-[node name="BoundaryTop" type="CollisionShape2D" parent="Boundaries"]
+[node name="BoundaryTop" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
 position = Vector2( 640, -10 )
+rotation = 3.14159
 shape = SubResource( 3 )
+one_way_collision = true
 
-[node name="BoundaryBottom" type="CollisionShape2D" parent="Boundaries"]
+[node name="BoundaryBottom" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
 position = Vector2( 640, 730 )
 shape = SubResource( 4 )
 
 [node name="Players" type="Node" parent="."]
 
 [node name="PlayerBrandon" parent="Players" instance=ExtResource( 7 )]
+position = Vector2( 640, 360 )
 
 [node name="PlayerCarro" parent="Players" instance=ExtResource( 10 )]
+position = Vector2( 640, 360 )
 
 [node name="PlayerConrad" parent="Players" instance=ExtResource( 11 )]
+position = Vector2( 640, 360 )
 
 [node name="PlayerKyle" parent="Players" instance=ExtResource( 4 )]
+position = Vector2( 640, 360 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 128
@@ -212,3 +224,6 @@ __meta__ = {
 }
 
 [node name="Announcer" parent="CanvasLayer" instance=ExtResource( 18 )]
+
+[node name="Points" parent="." instance=ExtResource( 21 )]
+position = Vector2( 290, 278 )
