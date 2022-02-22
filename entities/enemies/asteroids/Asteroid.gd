@@ -9,8 +9,8 @@ signal asteroids_destroyed()
 export(int) var total_health = 100
 export(int) var score = 100
 export(PackedScene) var death_effect
+export(PackedScene) var points
 
-var pickup = null
 var velocity := Vector2.ZERO
 var invincible := false
 var entered_stage := false
@@ -74,22 +74,26 @@ func take_damage(damage):
 func die(killed_by_player = false):
 	disable_collision()
 	hide()
-
-	queue_free()
-
 	emit_signal("enemy_destroyed", self, killed_by_player)
 
-	if pickup != null:
-		var pickup_instance = pickup.instance()
+	if points != null:
+		var random_range = 1 + randi() % (Global.wave_number + 1)
 
-		pickup_instance.position = position
-		Global.root.add_child(pickup_instance)
+		print(random_range)
+
+		for _i in range(random_range):
+			var points_instance = points.instance()
+
+			points_instance.global_position = global_position
+			Global.root.add_child(points_instance)
 
 	if death_effect != null:
 		var death_effect_instance = death_effect.instance()
 
 		death_effect_instance.position = position
 		Global.root.add_child(death_effect_instance)
+
+	queue_free()
 
 
 func move(move_velocity):

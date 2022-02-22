@@ -64,9 +64,6 @@ func take_damage(damage):
 func die(killed_by_player = false):
 	disable_collision()
 	hide()
-
-	queue_free()
-
 	emit_signal("enemy_destroyed", self, killed_by_player)
 
 	if pickup != null:
@@ -77,7 +74,7 @@ func die(killed_by_player = false):
 
 	if points != null:
 		var random_range = 1 + randi() % (Global.wave_number + 1)
-		print(random_range)
+
 		for _i in range(random_range):
 			var points_instance = points.instance()
 
@@ -89,6 +86,8 @@ func die(killed_by_player = false):
 
 		death_effect_instance.position = position
 		Global.root.add_child(death_effect_instance)
+
+		queue_free()
 
 
 func move(move_velocity):
