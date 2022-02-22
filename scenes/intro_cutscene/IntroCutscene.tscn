@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/Intro vid Game/output.webm" type="VideoStream" id=1]
+[ext_resource path="res://assets/videos/intro.webm" type="VideoStream" id=1]
 [ext_resource path="res://scenes/intro_cutscene/IntroCutscene.gd" type="Script" id=2]
 
 [node name="Control" type="Control"]
