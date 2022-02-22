@@ -5,7 +5,7 @@ var score := 100
 var velocity := Vector2.ZERO
 
 func _ready():
-	velocity = Vector2((randi() % 80) - 40, randi() % 200 + 100)
+	# velocity = Vector2((randi() % 80) - 40, randi() % 300 + 200)
 	
 	apply_impulse(Vector2.ZERO, velocity)
 

@@ -79,6 +79,7 @@ func die(killed_by_player = false):
 			var points_instance = points.instance()
 
 			points_instance.global_position = global_position
+			points_instance.velocity = velocity
 			Global.root.add_child(points_instance)
 
 	if death_effect != null:
