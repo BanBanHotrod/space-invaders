@@ -111,7 +111,7 @@ func create_script_event(tokens):
 		type = EventType.SET_CONTROLS_ENABLED
 		assert(tokens.size() == 2)
 		parameters.enabled = int(tokens[1])
-	elif command == "asteroid":
+	elif command == "asteroids":
 		type = EventType.CREATE_ASTEROIDS
 		assert(tokens.size() == 2)
 		parameters.count = int(tokens[1])
@@ -251,14 +251,15 @@ func announce_wave(script_event):
 
 	Global.root.announce_wave(Global.wave_number, title)
 	Global.root.music_player.play_next()
+	Global.enemy_attack_chance -= 80
 
 
 func create_asteroids(count):
 	for _i in count:
 		var asteroid_instance = asteroid.instance()
 
+		asteroid_instance.global_position = Vector2(640, -160)
 		asteroid_instance.connect("asteroid_destroyed", self, "_on_asteroid_destroyed")
-
 		Global.root.add_child(asteroid_instance)
 
 
@@ -282,9 +283,11 @@ func _on_enemy_destroyed(_destroyed_enemy, _destroyed_by_player):
 
 
 func _on_asteroid_destroyed(new_asteroids):
-	if len(new_asteroids) == 0:
-		narrate()
-		return
-
 	for new_asteroid in new_asteroids:
 		new_asteroid.connect("asteroid_destroyed", self, "_on_asteroid_destroyed")
+		new_asteroid.connect("asteroids_destroyed", self, "_on_asteroids_destroyed")
+
+
+func _on_asteroids_destroyed():
+	print('asteroids destroyed')
+	narrate()
