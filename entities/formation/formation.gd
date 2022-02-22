@@ -74,7 +74,7 @@ func create_formation():
 			var formation_x_offset = int(screen_size.x / 2) - int((horizontal_gap * width) / 2.0)
 
 			if y == pickup_y and x == pickup_x:
-				var random_pickup = randi() % (pickups.size() - 1)
+				var random_pickup = randi() % pickups.size()
 				enemy_instance.pickup = pickups[random_pickup]
 
 			enemy_instance.position.x = horizontal_gap * x + formation_x_offset
