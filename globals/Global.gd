@@ -9,6 +9,7 @@ var total_score := 0
 var reward_progress := 0
 var enemy_health_multiplier := 1
 var wave_number := 0
+var enemy_attack_chance := 1000 # roll amount (e.g. 100 = 1/100)
 
 signal root_initialized
 
