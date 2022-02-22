@@ -9,9 +9,11 @@ var total_score := 0
 var reward_progress := 0
 var enemy_health_multiplier := 1
 var wave_number := 0
-var enemy_attack_chance := 1000 # roll amount (e.g. 100 = 1/100)
+var enemy_attack_chance := 1000  # roll amount (e.g. 100 = 1/100)
+var weapon_level := 11
 
 signal root_initialized
+signal asteroids_destroyed
 
 
 func add_score(score):
@@ -66,3 +68,13 @@ signal create_asteroid(count)
 
 func create_asteroid(count: int):
 	emit_signal("create_asteroid", count)
+
+
+func reset():
+	total_lives = 4
+	controls = true
+	total_score = 0
+	reward_progress = 0
+	enemy_health_multiplier = 1
+	wave_number = 0
+	enemy_attack_chance = 1000

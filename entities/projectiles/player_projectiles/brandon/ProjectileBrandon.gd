@@ -15,7 +15,7 @@ func _ready():
 	animated_sprite.hide()
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if ray_cast_2d.is_colliding():
 		var ray_cast_collider = ray_cast_2d.get_collider()
 

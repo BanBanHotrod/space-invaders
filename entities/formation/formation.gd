@@ -45,7 +45,8 @@ func _process(delta):
 	position += velocity * delta
 
 	for enemy_instance in enemies:
-		enemy_instance.position += velocity * delta
+		if is_instance_valid(enemy_instance):
+			enemy_instance.position += velocity * delta
 
 
 func create_formation():
@@ -97,7 +98,7 @@ func create_formation():
 
 	var enemy_height = enemies[0].get_height()
 
-	in_position_height = (vertical_gap * height / 2) + (vertical_gap * 1.5)
+	in_position_height = (vertical_gap * int(float(height) / 2.0)) + (vertical_gap * 1.5)
 	set_process(true)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://entities/music_player/MusicPlayer.gd" type="Script" id=1]
 [ext_resource path="res://assets/music/22 (8 bit).wav" type="AudioStream" id=2]
@@ -7,13 +7,12 @@
 [ext_resource path="res://assets/music/Stronger (8-bit).wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/music/Was Red (8-bit).wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/music/Run It (8-bit).wav" type="AudioStream" id=7]
-[ext_resource path="res://assets/music/22 (8 bit) Short.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/music/Dishonest (8-bit).wav" type="AudioStream" id=9]
 [ext_resource path="res://assets/music/That 70_s (8-bit)wav.wav" type="AudioStream" id=10]
 
 [node name="MusicPlayer" type="Node"]
 script = ExtResource( 1 )
-music_streams = [ ExtResource( 5 ), ExtResource( 2 ), ExtResource( 9 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 6 ), ExtResource( 8 ) ]
+music_streams = [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 9 ), ExtResource( 2 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 10 ), ExtResource( 2 ), ExtResource( 6 ) ]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0

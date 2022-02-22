@@ -1,10 +1,8 @@
 extends KinematicBody2D
 class_name Asteroid
 
-
 signal asteroid_destroyed(new_asteroids)
-signal asteroids_destroyed()
-
+signal asteroids_destroyed
 
 export(int) var total_health = 100
 export(int) var score = 100
@@ -14,6 +12,7 @@ export(PackedScene) var points
 var velocity := Vector2.ZERO
 var invincible := false
 var entered_stage := false
+var dead := false
 
 onready var damage_cooldown_timer = $DamageCooldownTimer
 onready var collision_shape_2d = $CollisionShape2D
@@ -33,7 +32,7 @@ func _ready():
 
 func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
-	
+
 	if collision:
 		var collider = collision.collider
 		if collider.is_in_group("player"):
@@ -79,8 +78,6 @@ func die(killed_by_player = false):
 	if points != null:
 		var random_range = 1 + randi() % (Global.wave_number + 1)
 
-		print(random_range)
-
 		for _i in range(random_range):
 			var points_instance = points.instance()
 
@@ -91,10 +88,11 @@ func die(killed_by_player = false):
 	if death_effect != null:
 		var death_effect_instance = death_effect.instance()
 
-		death_effect_instance.position = position
 		Global.root.add_child(death_effect_instance)
 
 	queue_free()
+
+	Global.root.asteroid_effect.play()
 
 
 func move(move_velocity):

@@ -24,6 +24,7 @@ onready var the_script_source := "res://the_script.cfg"
 var the_script := []
 var sleeping := false
 var line_number := 0
+var connected_asteroids := []
 
 export(Array, PackedScene) var enemies = []
 export(Array, PackedScene) var formations = []
@@ -252,6 +253,7 @@ func announce_wave(script_event):
 	Global.root.announce_wave(Global.wave_number, title)
 	Global.root.music_player.play_next()
 	Global.enemy_attack_chance -= 80
+	Global.enemy_health_multiplier += 1
 
 
 func create_asteroids(count):
@@ -259,8 +261,8 @@ func create_asteroids(count):
 		var asteroid_instance = asteroid.instance()
 
 		asteroid_instance.global_position = Vector2(640, -160)
-		asteroid_instance.connect("asteroid_destroyed", self, "_on_asteroid_destroyed")
 		Global.root.add_child(asteroid_instance)
+		Global.connect("asteroids_destroyed", self, "_on_asteroids_destroyed")
 
 
 func _on_sleep_complete():
@@ -269,7 +271,6 @@ func _on_sleep_complete():
 
 
 func _on_formation_cleared():
-	Global.enemy_health_multiplier += 1
 	narrate()
 
 
@@ -278,16 +279,9 @@ func _on_announce_wave_completed():
 
 
 func _on_enemy_destroyed(_destroyed_enemy, _destroyed_by_player):
-	Global.enemy_health_multiplier += 1
 	narrate()
 
 
-func _on_asteroid_destroyed(new_asteroids):
-	for new_asteroid in new_asteroids:
-		new_asteroid.connect("asteroid_destroyed", self, "_on_asteroid_destroyed")
-		new_asteroid.connect("asteroids_destroyed", self, "_on_asteroids_destroyed")
-
-
 func _on_asteroids_destroyed():
-	print('asteroids destroyed')
+	Global.disconnect("asteroids_destroyed", self, "_on_asteroids_destroyed")
 	narrate()

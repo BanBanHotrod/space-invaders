@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://entities/enemies/dj/DJ.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/fonts/upheaval/upheavtt.ttf" type="DynamicFontData" id=2]
@@ -20,7 +20,10 @@
 [ext_resource path="res://entities/announcer/Announcer.tscn" type="PackedScene" id=18]
 [ext_resource path="res://entities/music_player/MusicPlayer.tscn" type="PackedScene" id=19]
 [ext_resource path="res://entities/enemies/asteroids/asteroid_large/AsteroidLarge.tscn" type="PackedScene" id=20]
-[ext_resource path="res://entities/points/Cookie.tscn" type="PackedScene" id=21]
+[ext_resource path="res://assets/audio/effects/explosion_enemy_1.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/audio/effects/Explosion.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/audio/effects/explosion_asteroid.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/audio/effects/pickup_coin.wav" type="AudioStream" id=24]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 360, 10 )
@@ -225,5 +228,16 @@ __meta__ = {
 
 [node name="Announcer" parent="CanvasLayer" instance=ExtResource( 18 )]
 
-[node name="Points" parent="." instance=ExtResource( 21 )]
-position = Vector2( 290, 278 )
+[node name="Effects" type="Node" parent="."]
+
+[node name="EnemyEffect" type="AudioStreamPlayer" parent="Effects"]
+stream = ExtResource( 21 )
+
+[node name="PlayerEffect" type="AudioStreamPlayer" parent="Effects"]
+stream = ExtResource( 22 )
+
+[node name="AsteroidEffect" type="AudioStreamPlayer" parent="Effects"]
+stream = ExtResource( 23 )
+
+[node name="PointsEffect" type="AudioStreamPlayer" parent="Effects"]
+stream = ExtResource( 24 )

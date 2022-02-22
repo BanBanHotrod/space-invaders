@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/sprites/players/conrad.png" type="Texture" id=1]
 [ext_resource path="res://entities/players/Player.gd" type="Script" id=2]
 [ext_resource path="res://entities/weapons/player_weapons/conrad/WeaponConrad.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entities/effects/explosions/players/conrad/ExplosionConrad.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/audio/effects/Explosion.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 14, 18 )
@@ -29,10 +28,6 @@ shape = SubResource( 2 )
 [node name="CollisionShape2DWings" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 18 )
 shape = SubResource( 3 )
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
-volume_db = -20.0
 
 [node name="Weapon" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -50 )

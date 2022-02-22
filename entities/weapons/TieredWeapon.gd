@@ -18,7 +18,7 @@ func _spawn_projectile():
 		._spawn_projectile()
 		return
 
-	var new_projectile = projectile_levels[current_level].instance()
+	var new_projectile = projectile_levels[Global.weapon_level].instance()
 
 	Global.root.add_child(new_projectile)
 	new_projectile.position = global_transform.origin
@@ -34,5 +34,10 @@ func set_level(level):
 func upgrade():
 	if current_level >= projectile_levels.size() - 1:
 		return
+
+	Global.weapon_level += 1
+
+	if Global.weapon_level >= 12:
+		Global.weapon_level = 11
 
 	set_level(current_level + 1)

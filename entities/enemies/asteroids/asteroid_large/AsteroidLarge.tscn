@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/materials/hurt.tres" type="Material" id=1]
 [ext_resource path="res://entities/enemies/asteroids/asteroid_large/AsteroidLarge.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/enemies/asteroid/asteroid.png" type="Texture" id=3]
 [ext_resource path="res://entities/enemies/asteroids/asteroid_medium/AsteroidMedium.tscn" type="PackedScene" id=4]
 [ext_resource path="res://entities/points/Cookie.tscn" type="PackedScene" id=5]
+[ext_resource path="res://entities/effects/explosions/enemy/asteroids/AsteroidsExplosion.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -21,7 +22,9 @@ extents = Vector2( 105, 125 )
 collision_layer = 2
 collision_mask = 9
 script = ExtResource( 2 )
+total_health = 10000
 score = 2000
+death_effect = ExtResource( 6 )
 points = ExtResource( 5 )
 debris = ExtResource( 4 )
 

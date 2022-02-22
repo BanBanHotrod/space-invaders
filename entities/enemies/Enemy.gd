@@ -20,6 +20,7 @@ onready var weapon = $Weapon
 onready var color_material = $AnimatedSprite.material
 onready var animated_sprite = $AnimatedSprite
 onready var health = total_health
+onready var cookie = $Cookie
 
 signal enemy_destroyed(enemy, killed_by_player)
 
@@ -33,8 +34,13 @@ func _ready():
 	assert(animated_sprite != null)
 
 	if auto_attack:
-
 		weapon_cooldown_timer.start()
+
+
+func _process(_delta):
+	if position.y > 720 + 100:
+		emit_signal("enemy_destroyed", self, false)
+		queue_free()
 
 
 func attack():
@@ -73,22 +79,15 @@ func die(killed_by_player = false):
 		Global.root.add_child(pickup_instance)
 
 	if points != null:
-		var random_range = 1 + randi() % (Global.wave_number + 1)
+		var points_instance = points.instance()
 
-		for _i in range(random_range):
-			var points_instance = points.instance()
+		points_instance.global_position = global_position
+		points_instance.velocity = velocity
+		Global.root.add_child(points_instance)
 
-			points_instance.global_position = global_position
-			points_instance.velocity = velocity
-			Global.root.add_child(points_instance)
+	queue_free()
 
-	if death_effect != null:
-		var death_effect_instance = death_effect.instance()
-
-		death_effect_instance.position = position
-		Global.root.add_child(death_effect_instance)
-
-		queue_free()
+	Global.root.enemy_effect.play()
 
 
 func move(move_velocity):

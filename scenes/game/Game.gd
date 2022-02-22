@@ -16,6 +16,10 @@ onready var announcer = $CanvasLayer/Announcer
 onready var music_player = $MusicPlayer
 onready var boss_health_bar_parent = $CanvasLayer/UI/BossHealthBar
 onready var boss_health_bar = $CanvasLayer/UI/BossHealthBar/HealthBarBoss
+onready var enemy_effect = $Effects/EnemyEffect
+onready var player_effect = $Effects/PlayerEffect
+onready var asteroid_effect = $Effects/AsteroidEffect
+onready var points_effect = $Effects/PointsEffect
 
 signal root_initialized
 signal input_attack_start
@@ -35,10 +39,17 @@ func _ready():
 	assert(music_player != null)
 	assert(boss_health_bar != null)
 	assert(boss_health_bar_parent != null)
+	assert(enemy_effect != null)
+	assert(player_effect != null)
+	assert(asteroid_effect != null)
+	assert(points_effect != null)
+
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 	boss_health_bar_parent.hide()
 
 	Global.root = self
+	emit_signal("root_initialized")
 	Global.emit_signal("root_initialized")
 
 	players.append(player_brandon)
@@ -47,8 +58,9 @@ func _ready():
 	players.append(player_kyle)
 
 	var random_player_index = randi() % 4
-	
+
 	for player in players:
+		player._connect_signals()
 		player.despawn()
 
 	current_player = players[random_player_index]
@@ -67,7 +79,7 @@ func _process(_delta):
 
 
 func respawn_player():
-	if current_player.total_lives > 0:
+	if current_player != null and current_player.total_lives > 0:
 		current_player.spawn()
 		current_player.enable_grace()
 	else:
@@ -77,6 +89,7 @@ func respawn_player():
 			next_player.spawn()
 			next_player.enable_grace()
 		else:
+			Global.reset()
 			var return_value := get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
 
 			if return_value != OK:
@@ -116,6 +129,8 @@ func process_input():
 		emit_signal("input_attack_stop")
 
 	if Input.is_action_pressed("ui_cancel"):
+		Global.reset()
+
 		var result_value = get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
 
 		if result_value != OK:
@@ -127,6 +142,9 @@ func set_current_player(player):
 	current_player.despawn()
 	current_player = player
 	current_player.spawn()
+
+	if current_player.total_lives <= 0:
+		current_player.total_lives = 1
 
 
 func announce_wave(wave_number, title):

@@ -45,9 +45,9 @@ func attack_stop():
 	attacking = false
 
 
-func set_fire_rate(fire_rate):
-	fire_rate = fire_rate
-	cooldown_limit = 1.0 / fire_rate
+func set_fire_rate(new_fire_rate):
+	fire_rate = new_fire_rate
+	cooldown_limit = 1.0 / new_fire_rate
 
 
 func _spawn_projectile():
