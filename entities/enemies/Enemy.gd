@@ -7,6 +7,7 @@ export(bool) var auto_attack = true
 export(int) var attack_cooldown := 0
 export(bool) var random_attack_cooldown := false
 export(PackedScene) var death_effect
+export(PackedScene) var points
 
 var pickup = null
 var velocity := Vector2.ZERO
@@ -74,6 +75,15 @@ func die(killed_by_player = false):
 		pickup_instance.position = position
 		Global.root.add_child(pickup_instance)
 
+	if points != null:
+		var random_range = 1 + randi() % (Global.wave_number + 1)
+		print(random_range)
+		for _i in range(random_range):
+			var points_instance = points.instance()
+
+			points_instance.global_position = global_position
+			Global.root.add_child(points_instance)
+
 	if death_effect != null:
 		var death_effect_instance = death_effect.instance()
 
@@ -120,7 +130,7 @@ func _on_DamageCooldownTimer_timeout():
 func _on_WeaponCooldownTimer_timeout():
 	if position.y > 0:
 		if random_attack_cooldown:
-			var attack_roll = randi() % Global.root.enemy_attack_chance
+			var attack_roll = randi() % Global.enemy_attack_chance
 
 			if attack_roll == 0:
 				attack()

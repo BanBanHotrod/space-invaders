@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/sprites/enemies/dj/dj-default.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/enemies/dj/dj-alternate.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/materials/hurt.tres" type="Material" id=7]
 [ext_resource path="res://entities/projectiles/enemy_projectiles/dj/complex_projectiles/ProjectileDiscSpin.tscn" type="PackedScene" id=8]
 [ext_resource path="res://entities/effects/explosions/enemy/EnemyExplosion.tscn" type="PackedScene" id=9]
+[ext_resource path="res://entities/points/Cookie.tscn" type="PackedScene" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -29,6 +30,7 @@ script = ExtResource( 3 )
 total_health = 30000
 score = 100000
 death_effect = ExtResource( 9 )
+points = ExtResource( 10 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 7 )

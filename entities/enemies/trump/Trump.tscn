@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/sprites/enemies/trump/trump-alternate.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/enemies/trump/trump-default.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://entities/projectiles/enemy_projectiles/trump/ProjectileTrumpNuke.tscn" type="PackedScene" id=5]
 [ext_resource path="res://entities/weapons/enemy_weapons/jock/WeaponJock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/effects/explosions/enemy/EnemyExplosion.tscn" type="PackedScene" id=7]
+[ext_resource path="res://entities/points/Cookie.tscn" type="PackedScene" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -28,12 +29,14 @@ score = 200
 attack_cooldown = 50
 random_attack_cooldown = true
 death_effect = ExtResource( 7 )
+points = ExtResource( 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 4 )
 position = Vector2( -0.5, -35.848 )
 scale = Vector2( 0.104, 0.104 )
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -41,6 +44,7 @@ position = Vector2( -0.431133, -36.1508 )
 shape = SubResource( 2 )
 
 [node name="WeaponCooldownTimer" type="Timer" parent="."]
+wait_time = 0.1
 
 [node name="DamageCooldownTimer" type="Timer" parent="."]
 wait_time = 0.15
