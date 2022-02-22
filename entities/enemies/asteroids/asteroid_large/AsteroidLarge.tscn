@@ -16,12 +16,12 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 105, 125 )
 
-[node name="Enemy" type="KinematicBody2D" groups=["enemy"]]
+[node name="Enemy" type="KinematicBody2D" groups=["asteroid", "enemy"]]
 collision_layer = 2
 collision_mask = 9
 script = ExtResource( 2 )
-total_health = 10000
 score = 2000
+debris = ExtResource( 4 )
 debris = ExtResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

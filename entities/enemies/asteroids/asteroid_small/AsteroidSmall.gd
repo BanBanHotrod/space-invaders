@@ -6,7 +6,8 @@ func _ready():
 
 
 func die(_killed_by_player = false):
-	emit_signal("asteroid_destroyed", [])
+	if all_asteroids_destroyed():
+		emit_signal("asteroids_destroyed")
 
 	.die()
 

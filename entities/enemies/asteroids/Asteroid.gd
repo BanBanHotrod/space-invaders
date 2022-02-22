@@ -3,6 +3,7 @@ class_name Asteroid
 
 
 signal asteroid_destroyed(new_asteroids)
+signal asteroids_destroyed()
 
 
 export(int) var total_health = 100
@@ -12,6 +13,7 @@ export(PackedScene) var death_effect
 var pickup = null
 var velocity := Vector2.ZERO
 var invincible := false
+var entered_stage := false
 
 onready var damage_cooldown_timer = $DamageCooldownTimer
 onready var collision_shape_2d = $CollisionShape2D
@@ -41,11 +43,15 @@ func _physics_process(delta):
 			collider.die()
 			die()
 		velocity = velocity.bounce(collision.normal)
-		
-	if position.x > get_viewport_rect().size.x or position.x < 0:
-		die()
-	if position.y > get_viewport_rect().size.y or position.y < 0:
-		die()
+
+	if not entered_stage:
+		if position.y > 0:
+			entered_stage = true
+	else:
+		if position.x > get_viewport_rect().size.x or position.x < 0:
+			die()
+		if position.y > get_viewport_rect().size.y or position.y < 0:
+			die()
 
 
 func take_damage(damage):
@@ -113,6 +119,10 @@ func get_height():
 	var frame_texture = animated_sprite.frames.get_frame("default", 0)
 
 	return frame_texture.get_height() * animated_sprite.scale.y
+
+
+func all_asteroids_destroyed():
+	return get_tree().get_nodes_in_group("asteroid").size() == 1
 
 
 func _on_DamageCooldownTimer_timeout():
