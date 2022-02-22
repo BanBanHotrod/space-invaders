@@ -6,7 +6,7 @@ enum BossStates {
 	VINYL_ATTACK,
 }
 
-export(float) var entrance_speed = 350
+export(float) var entrance_speed = 35
 
 onready var laser_weapon = $WeaponLaser
 onready var vinyl_weapon = $WeaponVinyl
