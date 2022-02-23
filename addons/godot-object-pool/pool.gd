@@ -26,12 +26,14 @@ var alive = {} setget no_access, no_access
 # Array of "dead" objects currently available for use
 var dead = [] setget no_access, no_access
 
+
 # Constructor accepting pool size, prefix and scene
 func _init(size_, prefix_, scene_):
 	size = int(size_)
 	prefix = str(prefix_)
 	scene = scene_
 	init()
+
 
 # Expand the total pool size by the number of size objects.
 # For example, if passed 2, we will instantiate 2 new objects and add to the dead pool.
@@ -46,30 +48,38 @@ func init():
 		s.connect("killed", self, "_on_killed")
 		dead.push_back(s)
 
+
 func no_access():
 	return
+
 
 func get_prefix():
 	return prefix
 
+
 func get_size():
 	return size
+
 
 func get_scene():
 	return scene
 
+
 func get_alive_size():
 	return alive.size()
 
+
 func get_dead_size():
 	return dead.size()
+
 
 # Get the first dead object and make it alive, adding the object to the alive pool and removing from dead pool
 func get_first_dead():
 	var ds = dead.size()
 	if ds > 0:
 		var o = dead[ds - 1]
-		if !o.dead: return null
+		if !o.dead:
+			return null
 
 		var n = o.get_name()
 		alive[n] = o
@@ -80,6 +90,7 @@ func get_first_dead():
 
 	return null
 
+
 # Get the first alive object. Does not affect / change the object's dead value
 func get_first_alive():
 	if alive.size() > 0:
@@ -87,10 +98,12 @@ func get_first_alive():
 
 	return null
 
+
 # Convenience method to kill all ALIVE objects managed by the pool
 func kill_all():
 	for i in alive.values():
 		i.kill()
+
 
 # Attach all objects managed by the pool to the node passed
 func add_to_node(node):
@@ -100,6 +113,7 @@ func add_to_node(node):
 	for i in dead:
 		node.add_child(i)
 
+
 # Convenience method to show all objects managed by the pool
 func show():
 	for i in alive.values():
@@ -108,6 +122,7 @@ func show():
 	for i in dead:
 		i.show()
 
+
 # Convenience method to hide all objects managed by the pool
 func hide():
 	for i in alive.values():
@@ -115,6 +130,7 @@ func hide():
 
 	for i in dead:
 		i.hide()
+
 
 # Event that all objects should emit so that the pool can manage dead/alive pools
 func _on_killed(target):
