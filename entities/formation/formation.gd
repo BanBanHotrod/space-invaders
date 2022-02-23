@@ -91,7 +91,7 @@ func create_formation():
 
 			enemy_instance.connect("enemy_destroyed", self, "_on_enemy_destroyed")
 
-			Global.root.add_child(enemy_instance)
+			Global.root.spawn_instance(enemy_instance)
 
 	total_enemies = enemies.size()
 	score_multiplier = 1 + Global.wave_number

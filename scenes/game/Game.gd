@@ -8,6 +8,7 @@ onready var player_brandon = $Players/PlayerBrandon
 onready var player_carro = $Players/PlayerCarro
 onready var player_conrad = $Players/PlayerConrad
 onready var player_kyle = $Players/PlayerKyle
+onready var players_root = $Players
 onready var ui_brandon_skull = $HUD/UI/PlayerBrandonSkull
 onready var ui_carro_skull = $HUD/UI/PlayerCarroSkull
 onready var ui_conrad_skull = $HUD/UI/PlayerConradSkull
@@ -22,6 +23,7 @@ onready var asteroid_effect = $Effects/AsteroidEffect
 onready var points_effect = $Effects/PointsEffect
 onready var pause_popup = $PauseMenu/Popup
 onready var ui = $HUD/UI
+onready var instances_root = $Instances
 
 signal root_initialized
 signal input_attack_start
@@ -46,6 +48,8 @@ func _ready():
 	assert(asteroid_effect != null)
 	assert(points_effect != null)
 	assert(pause_popup != null)
+	assert(ui != null)
+	assert(instances_root != null)
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
@@ -133,12 +137,7 @@ func process_input():
 
 	if Input.is_action_pressed("ui_cancel"):
 		Global.reset()
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-		ui.hide()
-		announcer.hide()
-		pause_popup.show()
-		get_tree().paused = true
+		_show_pause_menu()
 
 
 func set_current_player(player):
@@ -153,6 +152,33 @@ func set_current_player(player):
 
 func announce_wave(wave_number, title):
 	announcer.announce_wave(wave_number, title)
+
+
+func _hide_entities():
+	instances_root.hide()
+	ui.hide()
+	announcer.hide()
+	players_root.hide()
+
+
+func _show_entities():
+	instances_root.show()
+	ui.show()
+	players_root.show()
+
+
+func _hide_pause_menu():
+	_show_entities()
+	pause_popup.hide()
+	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+
+func _show_pause_menu():
+	_hide_entities()
+	pause_popup.show()
+	get_tree().paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func _on_Brandon_died():
@@ -179,11 +205,12 @@ func _on_Main_Menu_pressed():
 
 
 func _on_Resume_pressed():
-	ui.show()
-	pause_popup.hide()
-	get_tree().paused = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	_hide_pause_menu()
 
 
 func _on_Kyle_died():
 	ui_kyle_skull.show()
+
+
+func spawn_instance(scene_instance):
+	instances_root.add_child(scene_instance)

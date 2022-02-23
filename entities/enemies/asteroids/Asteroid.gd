@@ -83,12 +83,12 @@ func die(killed_by_player = false):
 
 			points_instance.global_position = global_position
 			points_instance.velocity = velocity
-			Global.root.add_child(points_instance)
+			Global.root.spawn_instance(points_instance)
 
 	if death_effect != null:
 		var death_effect_instance = death_effect.instance()
 
-		Global.root.add_child(death_effect_instance)
+		Global.root.spawn_instance(death_effect_instance)
 
 	queue_free()
 

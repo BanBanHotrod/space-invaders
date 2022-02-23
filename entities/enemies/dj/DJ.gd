@@ -50,7 +50,7 @@ func die(killed_by_player = false):
 		var pickup_instance = pickup.instance()
 
 		pickup_instance.position = position
-		Global.root.add_child(pickup_instance)
+		Global.root.spawn_instance(pickup_instance)
 
 
 func take_damage(damage):

@@ -28,6 +28,14 @@
 [ext_resource path="res://themes/pause_buttom_them.tres" type="Theme" id=26]
 [ext_resource path="res://themes/pause_theme.tres" type="Theme" id=27]
 
+[sub_resource type="DynamicFont" id=5]
+size = 36
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 30
+font_data = ExtResource( 2 )
+
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 360, 10 )
 
@@ -39,14 +47,6 @@ extents = Vector2( 640, 10 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 640, 10 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 36
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=6]
-size = 30
-font_data = ExtResource( 2 )
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 8 )
@@ -64,32 +64,7 @@ asteroid = ExtResource( 20 )
 [node name="ParallaxStars" parent="." instance=ExtResource( 9 )]
 speed_scale = 64.0
 
-[node name="Boundaries" type="StaticBody2D" parent="."]
-collision_layer = 8
-collision_mask = 66
-
-[node name="BoundaryLeft" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( -10, 360 )
-rotation = 1.5708
-shape = SubResource( 1 )
-one_way_collision_margin = 0.0
-
-[node name="BoundaryRight" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( 1290, 360 )
-rotation = -1.5708
-shape = SubResource( 2 )
-
-[node name="BoundaryTop" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( 640, -10 )
-rotation = 3.14159
-shape = SubResource( 3 )
-one_way_collision = true
-
-[node name="BoundaryBottom" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( 640, 730 )
-shape = SubResource( 4 )
-
-[node name="Players" type="Node" parent="."]
+[node name="Players" type="Node2D" parent="."]
 
 [node name="PlayerBrandon" parent="Players" instance=ExtResource( 7 )]
 position = Vector2( 640, 360 )
@@ -253,7 +228,6 @@ __meta__ = {
 
 [node name="Popup" type="Popup" parent="PauseMenu"]
 pause_mode = 2
-visible = true
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_pivot_offset = Vector2( 640, 360 )
@@ -319,6 +293,33 @@ flat = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 66
+
+[node name="BoundaryLeft" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
+position = Vector2( -10, 360 )
+rotation = 1.5708
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[node name="BoundaryRight" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
+position = Vector2( 1290, 360 )
+rotation = -1.5708
+shape = SubResource( 2 )
+
+[node name="BoundaryTop" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
+position = Vector2( 640, -10 )
+rotation = 3.14159
+shape = SubResource( 3 )
+one_way_collision = true
+
+[node name="BoundaryBottom" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
+position = Vector2( 640, 730 )
+shape = SubResource( 4 )
+
+[node name="Instances" type="Node2D" parent="."]
 
 [connection signal="pressed" from="PauseMenu/Popup/HBoxContainer/Container/Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="PauseMenu/Popup/HBoxContainer/Container/Quit" to="." method="_on_Main_Menu_pressed"]

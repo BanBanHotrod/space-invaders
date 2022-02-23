@@ -195,7 +195,7 @@ func create_enemy(script_event):
 	enemy_instance.position.x = 640
 	enemy_instance.position.y = -150
 
-	Global.root.add_child(enemy_instance)
+	Global.root.spawn_instance(enemy_instance)
 
 
 func create_formation_block(script_event):
@@ -225,7 +225,7 @@ func create_formation_block(script_event):
 
 	formation_instance.connect("formation_cleared", self, "_on_formation_cleared")
 
-	Global.root.add_child(formation_instance)
+	Global.root.spawn_instance(formation_instance)
 	formation_instance.create_formation()
 
 
@@ -261,7 +261,7 @@ func create_asteroids(count):
 		var asteroid_instance = asteroid.instance()
 
 		asteroid_instance.global_position = Vector2(640, -160)
-		Global.root.add_child(asteroid_instance)
+		Global.root.spawn_instance(asteroid_instance)
 		Global.connect("asteroids_destroyed", self, "_on_asteroids_destroyed")
 
 

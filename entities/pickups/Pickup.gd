@@ -36,7 +36,7 @@ func _on_PickupBrandon_body_entered(body):
 
 	var pickup_effect_instance = pickup_effect.instance()
 
-	Global.root.add_child(pickup_effect_instance)
+	Global.root.spawn_instance(pickup_effect_instance)
 	Global.root.current_player.upgrade_weapon()
 	Global.root.ui_brandon_skull.hide()
 	queue_free()
@@ -53,7 +53,7 @@ func _on_PickupCarro_body_entered(body):
 
 	var pickup_effect_instance = pickup_effect.instance()
 
-	Global.root.add_child(pickup_effect_instance)
+	Global.root.spawn_instance(pickup_effect_instance)
 
 	Global.root.current_player.upgrade_weapon()
 	Global.root.ui_carro_skull.hide()
@@ -71,7 +71,7 @@ func _on_PickupConrad_body_entered(body):
 
 	var pickup_effect_instance = pickup_effect.instance()
 
-	Global.root.add_child(pickup_effect_instance)
+	Global.root.spawn_instance(pickup_effect_instance)
 	Global.root.current_player.upgrade_weapon()
 	Global.root.ui_conrad_skull.hide()
 	queue_free()
@@ -88,7 +88,7 @@ func _on_PickupKyle_body_entered(body):
 
 	var pickup_effect_instance = pickup_effect.instance()
 
-	Global.root.add_child(pickup_effect_instance)
+	Global.root.spawn_instance(pickup_effect_instance)
 	Global.root.current_player.upgrade_weapon()
 	Global.root.ui_kyle_skull.hide()
 	queue_free()

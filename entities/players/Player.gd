@@ -44,7 +44,7 @@ func die():
 
 	var death_effect_instance = death_effect.instance()
 
-	Global.root.add_child(death_effect_instance)
+	Global.root.spawn_instance(death_effect_instance)
 	death_effect_instance.position = position
 
 	Global.root.player_effect.play()

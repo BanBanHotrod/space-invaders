@@ -53,6 +53,6 @@ func set_fire_rate(new_fire_rate):
 func _spawn_projectile():
 	var new_projectile = projectile.instance()
 
-	Global.root.add_child(new_projectile)
+	Global.root.spawn_instance(new_projectile)
 	new_projectile.rotation = rotation
 	new_projectile.position = global_position

@@ -18,6 +18,6 @@ func die(_killed_by_player = false):
 		var debris_instance = debris.instance()
 		debris_instance.global_position = position
 		debris_instance.velocity = Vector2(velocity.x, velocity.y + y_drift)
-		Global.root.add_child(debris_instance)
+		Global.root.spawn_instance(debris_instance)
 
 	.die()
