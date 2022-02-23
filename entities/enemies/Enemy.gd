@@ -20,7 +20,6 @@ onready var weapon = $Weapon
 onready var color_material = $AnimatedSprite.material
 onready var animated_sprite = $AnimatedSprite
 onready var health = total_health
-onready var cookie = $Cookie
 
 signal enemy_destroyed(enemy, killed_by_player)
 
