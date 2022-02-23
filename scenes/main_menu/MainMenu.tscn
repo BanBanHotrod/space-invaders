@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://themes/main_theme.tres" type="Theme" id=1]
+[ext_resource path="res://themes/pause_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/main_menu/buttons/MenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://entities/effects/parallax_stars/ParallaxStars.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/main_menu/MainMenu.gd" type="Script" id=4]
@@ -78,52 +78,39 @@ EVER
 "
 align = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 2269.0
 margin_right = 1280.0
-margin_bottom = 2669.0
-custom_constants/margin_right = 0
-custom_constants/margin_top = 40
-custom_constants/margin_left = 200
-custom_constants/margin_bottom = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
-margin_left = 200.0
-margin_top = 40.0
-margin_right = 1280.0
-margin_bottom = 380.0
+margin_bottom = 2917.0
 custom_constants/separation = 130
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MenuOptions" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
-margin_left = 224.0
-margin_right = 304.0
-margin_bottom = 340.0
+[node name="MenuOptions" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+margin_left = 76.0
+margin_right = 234.0
+margin_bottom = 648.0
 custom_constants/separation = 50
 alignment = 1
 
-[node name="Start" parent="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
-margin_top = 117.0
-margin_right = 80.0
-margin_bottom = 145.0
+[node name="Start" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
+margin_top = 247.0
+margin_right = 158.0
+margin_bottom = 299.0
 text = "Start"
 
-[node name="Quit" parent="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
-margin_top = 195.0
-margin_right = 80.0
-margin_bottom = 223.0
+[node name="Quit" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
+margin_top = 349.0
+margin_right = 158.0
+margin_bottom = 401.0
 text = "Quit"
 
-[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
-margin_left = 434.0
-margin_right = 856.0
-margin_bottom = 340.0
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 364.0
+margin_right = 1204.0
+margin_bottom = 648.0
 theme = ExtResource( 1 )
 text = "The Greatest
 Ever
@@ -149,6 +136,6 @@ position = Vector2( 0, -360 )
 wait_time = 3.0
 one_shot = true
 
-[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions/Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/MenuOptions/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/MenuOptions/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/MenuOptions/Quit" to="." method="_on_Quit_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
