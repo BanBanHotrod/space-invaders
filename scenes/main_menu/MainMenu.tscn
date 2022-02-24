@@ -79,9 +79,9 @@ EVER
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 2269.0
+margin_top = 2120.0
 margin_right = 1280.0
-margin_bottom = 2917.0
+margin_bottom = 2840.0
 custom_constants/separation = 130
 alignment = 1
 __meta__ = {
@@ -91,26 +91,27 @@ __meta__ = {
 [node name="MenuOptions" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 76.0
 margin_right = 234.0
-margin_bottom = 648.0
+margin_bottom = 720.0
 custom_constants/separation = 50
 alignment = 1
 
 [node name="Start" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
-margin_top = 247.0
+margin_top = 283.0
 margin_right = 158.0
-margin_bottom = 299.0
+margin_bottom = 335.0
 text = "Start"
 
 [node name="Quit" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
-margin_top = 349.0
+margin_top = 385.0
 margin_right = 158.0
-margin_bottom = 401.0
+margin_bottom = 437.0
 text = "Quit"
 
 [node name="Title" type="Label" parent="VBoxContainer/HBoxContainer"]
 margin_left = 364.0
+margin_top = 36.0
 margin_right = 1204.0
-margin_bottom = 648.0
+margin_bottom = 684.0
 theme = ExtResource( 1 )
 text = "The Greatest
 Ever
@@ -135,6 +136,9 @@ position = Vector2( 0, -360 )
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="ScoreUpdateTimer" type="Timer" parent="."]
+wait_time = 10.0
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MenuOptions/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MenuOptions/Quit" to="." method="_on_Quit_pressed"]

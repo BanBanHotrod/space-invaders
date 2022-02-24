@@ -97,6 +97,7 @@ func respawn_player():
 			next_player.enable_grace()
 		else:
 			Global.reset()
+
 			var return_value := get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
 
 			if return_value != OK:
@@ -194,13 +195,11 @@ func _on_Conrad_died():
 
 
 func _on_Main_Menu_pressed():
-	# var result_value = get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
+	print("high scores: ", Global.high_scores)
+	if not Global.first_launch and Global.total_score > 0:
+		Global.add_high_score(Global.total_score)
 
-	# if result_value != OK:
-	# 	get_tree().quit()
-
-	# audio_stream_player.stop()
-	# save_game()
+	Global.save_game()
 	get_tree().quit()
 
 
