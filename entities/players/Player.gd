@@ -15,6 +15,8 @@ var previous_position = null
 var spawned := false
 var grace := false
 var input_disabled := false
+var joystick_speed := 500.0
+var arcade_mode := true
 
 
 func _ready():
@@ -27,13 +29,32 @@ func _ready():
 	previous_position = position
 
 
+func _process(delta):
+	process_input(delta)
+
+
+func process_input(delta):
+	if Input.is_action_pressed("move_left"):
+		print('move left')
+		move_left(delta)
+
+	if Input.is_action_pressed("move_right"):
+		move_right(delta)
+
+	if Input.is_action_pressed("move_up"):
+		move_up(delta)
+
+	if Input.is_action_pressed("move_down"):
+		move_down(delta)
+
+
 func _connect_signals():
 	Global.root.connect("input_attack_start", self, "_on_attack_start")
 	Global.root.connect("input_attack_stop", self, "_on_attack_stop")
 
 
 func _physics_process(_delta):
-	if Global.controls:
+	if Global.controls and not arcade_mode:
 		move_to_cursor()
 
 
@@ -61,12 +82,37 @@ func upgrade_weapon():
 	weapon.upgrade()
 
 
-func move_to_cursor():
-	var direction := get_global_mouse_position() - position
-	var collision := move_and_collide(direction)
+func move_left(delta):
+	var direction = Vector2(-1, 0)
+	var collision = move_and_collide(direction * joystick_speed * delta)
 
+	handle_collision(collision)
+
+
+func move_right(delta):
+	var direction = Vector2(1, 0)
+	var collision = move_and_collide(direction * joystick_speed * delta)
+
+	handle_collision(collision)
+
+
+func move_up(delta):
+	var direction = Vector2(0, -1)
+	var collision = move_and_collide(direction * joystick_speed * delta)
+
+	handle_collision(collision)
+
+
+func move_down(delta):
+	var direction = Vector2(0, 1)
+	var collision = move_and_collide(direction * joystick_speed * delta)
+
+	handle_collision(collision)
+
+
+func handle_collision(collision):
 	if not grace and collision:
-		var collider := collision.collider
+		var collider = collision.collider
 
 		if collider.is_in_group("boss"):
 			die()
@@ -82,6 +128,13 @@ func move_to_cursor():
 		if collider.is_in_group("points"):
 			Global.add_score(collider.score)
 			collider.die()
+
+
+func move_to_cursor():
+	var direction := get_global_mouse_position() - position
+	var collision := move_and_collide(direction)
+
+	handle_collision(collision)
 
 
 func teleport_to_cursor():

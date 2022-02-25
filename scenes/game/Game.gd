@@ -24,6 +24,7 @@ onready var points_effect = $Effects/PointsEffect
 onready var pause_popup = $PauseMenu/Popup
 onready var ui = $HUD/UI
 onready var instances_root = $Instances
+onready var debug_event_text = $HUD/UI/DebugEvent
 
 signal root_initialized
 signal input_attack_start
@@ -80,9 +81,17 @@ func _ready():
 	player_conrad.connect("player_died", self, "_on_Conrad_died")
 	player_kyle.connect("player_died", self, "_on_Kyle_died")
 
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+
 
 func _process(_delta):
 	process_input()
+
+
+func _input(event):
+	if event:
+		print(event.as_text())
+		debug_event_text.text = event.as_text()
 
 
 func respawn_player():

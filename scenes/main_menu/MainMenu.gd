@@ -23,7 +23,7 @@ func _ready():
 	Global.load_game()
 	audio_stream_player.play()
 
-	if first_launch:
+	if false and first_launch:
 		camera_2d.position.y = -2484
 	else:
 		in_position = true
@@ -48,7 +48,7 @@ func _on_Start_pressed():
 	Global.total_score = 0
 	audio_stream_player.stop()
 
-	iff Global.first_launch:
+	if false and Global.first_launch:
 		Global.first_launch = false
 		Global.save_game()
 		var return_value = get_tree().change_scene("res://scenes/intro_cutscene/IntroCutscene.tscn")
