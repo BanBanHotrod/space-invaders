@@ -3,6 +3,8 @@ class_name Game
 
 var current_player = null
 var players := []
+var weapon_temperature := 0
+var weapon_max_temperature := 0
 
 onready var player_brandon = $Players/PlayerBrandon
 onready var player_carro = $Players/PlayerCarro
@@ -27,6 +29,7 @@ onready var cookies = $Cookies
 onready var debug_event_text = $HUD/UI/DebugEvent
 onready var the_narrator = $TheNarrator
 onready var instances_root = $Instances
+onready var weapon_temperature_bar = $HUD/UI/WeaponTemperature/Value
 
 signal root_initialized
 signal input_attack_start
@@ -55,6 +58,7 @@ func _ready():
 	assert(cookies != null)
 	assert(the_narrator != null)
 	assert(instances_root != null)
+	assert(weapon_temperature_bar != null)
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
@@ -72,6 +76,7 @@ func _ready():
 	var random_player_index = randi() % 4
 
 	for player in players:
+		player.connect("weapon_temperature_changed", self, "_on_weapon_temperature_changed")
 		player._connect_signals()
 		player.despawn()
 
@@ -228,6 +233,12 @@ func _on_Main_Menu_pressed():
 
 func _on_Resume_pressed():
 	_hide_pause_menu()
+
+
+func _on_weapon_temperature_changed(temperature, max_temperature):
+	weapon_temperature = temperature
+	weapon_max_temperature = max_temperature
+	weapon_temperature_bar.rect_scale.x = float(temperature) / float(max_temperature)
 
 
 func _on_spawn_cookie(position):

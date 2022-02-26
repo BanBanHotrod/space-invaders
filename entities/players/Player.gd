@@ -2,6 +2,7 @@ extends KinematicBody2D
 class_name Player
 
 signal player_died
+signal weapon_temperature_changed(temperature, max_temperature)
 
 export(int) var total_lives = 1
 export(PackedScene) var death_effect
@@ -28,6 +29,8 @@ func _ready():
 	assert(death_effect != null)
 
 	previous_position = position
+
+	weapon.connect("weapon_temperature_changed", self, "_on_weapon_temperature_changed")
 
 
 func _process(delta):
@@ -164,6 +167,8 @@ func spawn():
 	enable_collisions()
 	enable_input()
 
+	weapon.set_process(true)
+
 
 func despawn():
 	hide()
@@ -172,6 +177,8 @@ func despawn():
 	set_process_input(false)
 	disable_collisions()
 	disable_input()
+
+	weapon.set_process(false)
 
 
 func enable_input():
@@ -207,3 +214,7 @@ func disable_grace():
 
 func _on_GraceTimer_timeout():
 	disable_grace()
+
+
+func _on_weapon_temperature_changed(temperature, max_temperature):
+	emit_signal("weapon_temperature_changed", temperature, max_temperature)
