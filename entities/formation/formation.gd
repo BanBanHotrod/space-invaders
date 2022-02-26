@@ -2,9 +2,10 @@ extends Node2D
 class_name Formation
 
 signal formation_cleared
+signal enemy_destroyed(destroyed_enemy, killed_by_player)
 
 export(Array, PackedScene) var pickups = []
-export(float) var entrance_speed := 50
+export(float) var entrance_speed := 500
 
 var vertical_speed := 10.0
 var horizontal_speed := 20.0
@@ -86,9 +87,7 @@ func create_formation():
 			)
 			enemy_instance.health = enemy_instance.total_health
 			enemy_instance.invincible = true
-
 			enemies.append(enemy_instance)
-
 			enemy_instance.connect("enemy_destroyed", self, "_on_enemy_destroyed")
 
 			Global.root.spawn_instance(enemy_instance)
@@ -96,9 +95,7 @@ func create_formation():
 	total_enemies = enemies.size()
 	score_multiplier = 1 + Global.wave_number
 
-	var enemy_height = enemies[0].get_height()
-
-	in_position_height = (vertical_gap * int(float(height) / 2.0)) + (vertical_gap * 1.5)
+	in_position_height = (vertical_gap * int(float(height) / 2)) + int(vertical_gap * 1.5)
 	set_process(true)
 
 
@@ -116,6 +113,8 @@ func _on_enemy_destroyed(destroyed_enemy, killed_by_player):
 
 			if total_enemies <= 0:
 				emit_signal("formation_cleared")
+
+	emit_signal("enemy_destroyed", destroyed_enemy, killed_by_player)
 
 
 func _on_AggressionTimer_timeout():

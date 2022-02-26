@@ -7,7 +7,6 @@ export(bool) var auto_attack = true
 export(int) var attack_cooldown := 0
 export(bool) var random_attack_cooldown := false
 export(PackedScene) var death_effect
-export(PackedScene) var points
 
 var pickup = null
 var velocity := Vector2.ZERO
@@ -76,13 +75,6 @@ func die(killed_by_player = false):
 
 		pickup_instance.position = position
 		Global.root.spawn_instance(pickup_instance)
-
-	if points != null:
-		var points_instance = points.instance()
-
-		points_instance.global_position = global_position
-		points_instance.velocity = velocity
-		Global.root.spawn_instance(points_instance)
 
 	queue_free()
 

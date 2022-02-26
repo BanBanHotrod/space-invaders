@@ -35,7 +35,6 @@ func _process(delta):
 
 func process_input(delta):
 	if Input.is_action_pressed("move_left"):
-		print('move left')
 		move_left(delta)
 
 	if Input.is_action_pressed("move_right"):

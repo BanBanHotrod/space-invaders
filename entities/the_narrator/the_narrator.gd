@@ -30,6 +30,8 @@ export(Array, PackedScene) var enemies = []
 export(Array, PackedScene) var formations = []
 export(PackedScene) var asteroid
 
+signal spawn_cookie(position)
+
 
 func _ready():
 	var return_value = Global.connect("root_initialized", self, "_on_root_initialized")
@@ -224,6 +226,7 @@ func create_formation_block(script_event):
 	formation_instance.horizontal_speed = 200.0
 
 	formation_instance.connect("formation_cleared", self, "_on_formation_cleared")
+	formation_instance.connect("enemy_destroyed", self, "_on_enemy_destroyed")
 
 	Global.root.spawn_instance(formation_instance)
 	formation_instance.create_formation()
@@ -278,8 +281,10 @@ func _on_announce_wave_completed():
 	narrate()
 
 
-func _on_enemy_destroyed(_destroyed_enemy, _destroyed_by_player):
-	narrate()
+func _on_enemy_destroyed(destroyed_enemy, _destroyed_by_player):
+	var position = destroyed_enemy.global_position
+	emit_signal("spawn_cookie", position)
+	# narrate()
 
 
 func _on_asteroids_destroyed():

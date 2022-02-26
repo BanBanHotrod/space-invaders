@@ -23,8 +23,10 @@ onready var asteroid_effect = $Effects/AsteroidEffect
 onready var points_effect = $Effects/PointsEffect
 onready var pause_popup = $PauseMenu/Popup
 onready var ui = $HUD/UI
-onready var instances_root = $Instances
+onready var cookies = $Cookies
 onready var debug_event_text = $HUD/UI/DebugEvent
+onready var the_narrator = $TheNarrator
+onready var instances_root = $Instances
 
 signal root_initialized
 signal input_attack_start
@@ -50,6 +52,8 @@ func _ready():
 	assert(points_effect != null)
 	assert(pause_popup != null)
 	assert(ui != null)
+	assert(cookies != null)
+	assert(the_narrator != null)
 	assert(instances_root != null)
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -81,17 +85,11 @@ func _ready():
 	player_conrad.connect("player_died", self, "_on_Conrad_died")
 	player_kyle.connect("player_died", self, "_on_Kyle_died")
 
-	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	the_narrator.connect("spawn_cookie", self, "_on_spawn_cookie")
 
 
 func _process(_delta):
 	process_input()
-
-
-func _input(event):
-	if event:
-		print(event.as_text())
-		debug_event_text.text = event.as_text()
 
 
 func respawn_player():
@@ -165,6 +163,7 @@ func announce_wave(wave_number, title):
 
 
 func _hide_entities():
+	cookies.hide()
 	instances_root.hide()
 	ui.hide()
 	announcer.hide()
@@ -172,6 +171,7 @@ func _hide_entities():
 
 
 func _show_entities():
+	cookies.show()
 	instances_root.show()
 	ui.show()
 	players_root.show()
@@ -204,7 +204,6 @@ func _on_Conrad_died():
 
 
 func _on_Main_Menu_pressed():
-	print("high scores: ", Global.high_scores)
 	if not Global.first_launch and Global.total_score > 0:
 		Global.add_high_score(Global.total_score)
 
@@ -218,6 +217,10 @@ func _on_Resume_pressed():
 
 func _on_Kyle_died():
 	ui_kyle_skull.show()
+
+
+func _on_spawn_cookie(position):
+	cookies.spawn_cookie(position)
 
 
 func spawn_instance(scene_instance):
