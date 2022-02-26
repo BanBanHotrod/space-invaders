@@ -91,58 +91,76 @@ func save():
 	return save_dict
 
 
-func save_game():
-	var save_game = File.new()
+func _save_game():
+	var _save_game = File.new()
 
-	save_game.open("user://savegame.save", File.WRITE)
+	_save_game.open("user://savegame.save", File.WRITE)
 
-	if not first_launch:
-		while len(Global.high_scores) > 5:
-			Global.high_scores.pop_front()
-
-		Global.high_scores.sort()
-
-	save_game.store_line(
+	_save_game.store_line(
 		to_json(
 			{
 				"first_launch": first_launch,
-				"high_scores": Global.high_scores,
+				"high_scores": high_scores,
 			}
 		)
 	)
 
-	save_game.close()
+	_save_game.close()
 
 
 func load_game():
-	var save_game = File.new()
+	var _save_game = File.new()
 
-	if not save_game.file_exists("user://savegame.save"):
+	if not _save_game.file_exists("user://savegame.save"):
 		return
 
-	save_game.open("user://savegame.save", File.READ)
+	_save_game.open("user://savegame.save", File.READ)
 
-	if save_game.get_position() >= save_game.get_len():
+	if _save_game.get_position() >= _save_game.get_len():
 		var dir = Directory.new()
 		print("Warning: Save file is empty, deleting")
 		dir.remove("user://savegame.save")
 
-	while save_game.get_position() < save_game.get_len():
-		var save_data = parse_json(save_game.get_line())
+	while _save_game.get_position() < _save_game.get_len():
+		var save_data = parse_json(_save_game.get_line())
 
 		for save_key in save_data.keys():
 			if save_key == "first_launch":
 				first_launch = save_data[save_key]
 
 			if save_key == "high_scores":
-				Global.high_scores = save_data[save_key]
+				high_scores = save_data[save_key]
 
-	save_game.close()
+	_save_game.close()
 
 
-func add_high_score(high_score):
-	high_scores.append(high_score)
-	high_scores.sort()
+class HighScoreSorter:
+	static func sort_ascending(a, b):
+		if not a or not "score" in a:
+			return b
+		if not b or not "score" in b:
+			return a
+		if a and a.score > b.score:
+			return true
+		return false
+
+
+func add_high_score(name):
+	high_scores.append({"name": name, "score": total_score})
+	high_scores.sort_custom(HighScoreSorter, "sort_ascending")
 
 	while len(high_scores) > 5:
 		high_scores.pop_front()
+
+	_save_game()
+
+
+func score_is_new_high():
+	if high_scores.size() < 5:
+		return true
+
+	for high_score in high_scores:
+		if total_score > high_score.score:
+			return true
+
+	return false

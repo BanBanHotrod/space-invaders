@@ -8,12 +8,46 @@ var weapon_max_temperature := 0
 var show_pause_menu := false
 var selected_y_positions := [280, 650]
 var selected_y_position := 0
+var high_score_character_nodes := []
+var high_score_characters := []
+var high_score_name := ""
+var high_score_character_set := [
+	"_",
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
+]
+var focused_high_score_character := 0
+var show_high_score_menu := false
 
-onready var player_brandon = $Players/PlayerBrandon
-onready var player_carro = $Players/PlayerCarro
-onready var player_conrad = $Players/PlayerConrad
-onready var player_kyle = $Players/PlayerKyle
-onready var players_root = $Players
+onready var player_brandon = $Instances/Players/PlayerBrandon
+onready var player_carro = $Instances/Players/PlayerCarro
+onready var player_conrad = $Instances/Players/PlayerConrad
+onready var player_kyle = $Instances/Players/PlayerKyle
+onready var players_root = $Instances/Players
 onready var ui_brandon_skull = $HUD/UI/PlayerBrandonSkull
 onready var ui_carro_skull = $HUD/UI/PlayerCarroSkull
 onready var ui_conrad_skull = $HUD/UI/PlayerConradSkull
@@ -22,23 +56,25 @@ onready var announcer = $HUD/Announcer
 onready var music_player = $MusicPlayer
 onready var boss_health_bar_parent = $HUD/UI/BossHealthBar
 onready var boss_health_bar = $HUD/UI/BossHealthBar/HealthBarBoss
-onready var enemy_effect = $Effects/EnemyEffect
-onready var player_effect = $Effects/PlayerEffect
-onready var asteroid_effect = $Effects/AsteroidEffect
-onready var points_effect = $Effects/PointsEffect
+onready var enemy_effect = $Instances/Effects/EnemyEffect
+onready var player_effect = $Instances/Effects/PlayerEffect
+onready var asteroid_effect = $Instances/Effects/AsteroidEffect
+onready var points_effect = $Instances/Effects/PointsEffect
 onready var pause_popup = $PauseMenu/Popup
 onready var ui = $HUD/UI
-onready var cookies = $Cookies
+onready var cookies = $Instances/Cookies
 onready var debug_event_text = $HUD/UI/DebugEvent
 onready var the_narrator = $TheNarrator
 onready var instances_root = $Instances
 onready var weapon_temperature_bar = $HUD/UI/WeaponTemperature/Value
 onready var selected_menu_item = $PauseMenu/Popup/HBoxContainer/Container/Selected
+onready var high_score_popup = $ScoreInput/Popup
+onready var high_score_characters_node = $ScoreInput/Popup/VBoxContainer/Container/Characters
+onready var blink_timer = $BlinkTimer
 
 signal root_initialized
 signal input_attack_start
 signal input_attack_stop
-signal input_attack_once
 
 
 func _ready():
@@ -64,6 +100,13 @@ func _ready():
 	assert(the_narrator != null)
 	assert(instances_root != null)
 	assert(weapon_temperature_bar != null)
+	assert(high_score_popup != null)
+	assert(high_score_characters_node != null)
+	assert(blink_timer != null)
+
+	for character in high_score_characters_node.get_children():
+		high_score_characters.append(0)
+		high_score_character_nodes.append(character)
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
@@ -94,12 +137,7 @@ func _ready():
 	player_carro.connect("player_died", self, "_on_Carro_died")
 	player_conrad.connect("player_died", self, "_on_Conrad_died")
 	player_kyle.connect("player_died", self, "_on_Kyle_died")
-
 	the_narrator.connect("spawn_cookie", self, "_on_spawn_cookie")
-
-
-func _process(_delta):
-	process_input()
 
 
 func respawn_player():
@@ -113,15 +151,24 @@ func respawn_player():
 			next_player.spawn()
 			next_player.enable_grace()
 		else:
+			if Global.score_is_new_high():
+				show_high_score_menu = true
+				high_score_popup.show()
+			else:
+				_show_pause_menu()
 			Global.reset()
-
-			var return_value := get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
-
-			if return_value != OK:
-				print("Error changing scene:", return_value)
-				get_tree().quit()
+			blink_timer.start()
+			return
 
 		current_player = next_player
+
+
+func _exit_to_menu():
+	var return_value := get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
+
+	if return_value != OK:
+		print("Error changing scene:", return_value)
+		get_tree().quit()
 
 
 func get_next_player():
@@ -143,7 +190,7 @@ func get_next_player():
 			return player
 
 
-func process_input():
+func _input(event):
 	if not Global.controls:
 		return
 
@@ -153,18 +200,21 @@ func process_input():
 	if Input.is_action_just_released("action_attack"):
 		emit_signal("input_attack_stop")
 
-	if Input.is_action_pressed("ui_cancel"):
+	if not show_high_score_menu and Input.is_action_pressed("ui_cancel"):
 		Global.reset()
 		_show_pause_menu()
 
 	if show_pause_menu:
+		print("PAUSED")
 		if Input.is_action_pressed("ui_focus_prev"):
+			print("PREVIOUS")
 			selected_y_position -= 1
 			if selected_y_position < 0:
 				selected_y_position = selected_y_positions.size() - 1
 			selected_menu_item.rect_position.y = selected_y_positions[selected_y_position]
 
 		if Input.is_action_pressed("ui_focus_next"):
+			print("NEXT")
 			selected_y_position += 1
 			if selected_y_position >= selected_y_positions.size():
 				selected_y_position = 0
@@ -175,6 +225,45 @@ func process_input():
 				_hide_pause_menu()
 			elif selected_y_position == 1:
 				_on_Main_Menu_pressed()
+
+	elif show_high_score_menu:
+		if Input.is_action_just_pressed("ui_left"):
+			focused_high_score_character -= 1
+
+			if focused_high_score_character < 0:
+				focused_high_score_character = high_score_characters.size() - 1
+
+			_show_character_nodes()
+		if Input.is_action_just_pressed("ui_right"):
+			focused_high_score_character += 1
+
+			if focused_high_score_character > high_score_characters.size() - 1:
+				focused_high_score_character = 0
+			_show_character_nodes()
+		if Input.is_action_just_pressed("ui_up"):
+			high_score_characters[focused_high_score_character] += 1
+
+			if (
+				high_score_characters[focused_high_score_character]
+				> high_score_character_set.size() - 1
+			):
+				high_score_characters[focused_high_score_character] = 0
+
+			high_score_character_nodes[focused_high_score_character].text = high_score_character_set[high_score_characters[focused_high_score_character]]
+			_show_character_nodes()
+		if Input.is_action_just_pressed("ui_down"):
+			high_score_characters[focused_high_score_character] -= 1
+
+			if high_score_characters[focused_high_score_character] < 0:
+				high_score_characters[focused_high_score_character] = (
+					high_score_character_set.size()
+					- 1
+				)
+			high_score_character_nodes[focused_high_score_character].text = high_score_character_set[high_score_characters[focused_high_score_character]]
+			_show_character_nodes()
+		if Input.is_action_pressed("ui_select"):
+			_save_high_score()
+			_exit_to_menu()
 
 
 func set_current_player(player):
@@ -217,7 +306,8 @@ func _hide_pause_menu():
 	show_pause_menu = false
 	_show_entities()
 	pause_popup.hide()
-	# get_tree().paused = false
+	instances_root.set_process(true)
+	instances_root.set_physics_process(true)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 
@@ -225,8 +315,25 @@ func _show_pause_menu():
 	show_pause_menu = true
 	_hide_entities()
 	pause_popup.show()
-	# get_tree().paused = true
+	instances_root.set_process(false)
+	instances_root.set_physics_process(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _show_character_nodes():
+	for character_node in high_score_character_nodes:
+		character_node.show()
+	blink_timer.stop()
+	blink_timer.start()
+
+
+func _save_high_score():
+	for character in high_score_characters:
+		var character_text = high_score_character_set[character]
+		high_score_name += character_text
+
+	high_score_name = high_score_name.replace("_", " ")
+	Global.add_high_score(high_score_name)
 
 
 func _on_Brandon_died():
@@ -250,12 +357,9 @@ func _on_Kyle_died():
 
 
 func _on_Main_Menu_pressed():
-	if not Global.first_launch and Global.total_score > 0:
-		Global.add_high_score(Global.total_score)
-
-	Global.save_game()
 	# get_tree().quit()
 	Global.reset()
+	_hide_pause_menu()
 
 	var return_value := get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
 
@@ -284,3 +388,13 @@ func spawn_instance(scene_instance):
 
 func print_debug(message):
 	debug_event_text.text = message
+
+
+func _on_BlinkTimer_timeout():
+	if show_high_score_menu:
+		var focused_node = high_score_character_nodes[focused_high_score_character]
+
+		if focused_node.visible:
+			focused_node.hide()
+		else:
+			focused_node.show()

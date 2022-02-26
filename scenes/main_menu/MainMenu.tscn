@@ -97,9 +97,8 @@ alignment = 1
 
 [node name="Start" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
 visible = false
-margin_top = 310.0
-margin_right = 80.0
-margin_bottom = 338.0
+margin_right = 286.0
+margin_bottom = 28.0
 text = "Start"
 
 [node name="Quit" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
@@ -118,7 +117,7 @@ text = "PRESS FIRE
 TO START"
 
 [node name="Title" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 316.0
+margin_left = 428.0
 margin_right = 1268.0
 margin_bottom = 648.0
 theme = ExtResource( 1 )

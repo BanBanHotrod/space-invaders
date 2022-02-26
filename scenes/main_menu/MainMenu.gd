@@ -20,24 +20,22 @@ func _ready():
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
+	Global.reset()
 	Global.load_game()
 	audio_stream_player.play()
-
-	if true or first_launch:
-		camera_2d.position.y = -2484
-	else:
-		in_position = true
-
-	if not Global.first_launch and Global.total_score > 0:
-		Global.add_high_score(Global.total_score)
-
+	camera_2d.position.y = -2484
+	in_position = false
 	score_update_timer.start()
 	_on_ScoreUpdateTimer_timeout()
 
 
-func _input(event):
-	if Input.is_action_pressed("ui_select"):
-		_on_Start_pressed()
+func _input(_event):
+	if Input.is_action_just_pressed("ui_select"):
+		if not in_position:
+			camera_2d.position.y = 360
+			in_position = true
+		else:
+			_on_Start_pressed()
 
 
 func _process(delta):
@@ -55,14 +53,12 @@ func _on_Start_pressed():
 
 	if true or Global.first_launch:
 		Global.first_launch = false
-		Global.save_game()
 		var return_value = get_tree().change_scene("res://scenes/intro_cutscene/IntroCutscene.tscn")
 		if return_value != OK:
 			print("Error changing scene:", return_value)
 			get_tree().quit()
 	else:
 		Global.first_launch = false
-		Global.save_game()
 		var return_value = get_tree().change_scene("res://scenes/game/Game.tscn")
 		if return_value != OK:
 			print("Error changing scene:", return_value)
@@ -70,11 +66,7 @@ func _on_Start_pressed():
 
 
 func _on_Quit_pressed():
-	if not Global.first_launch and Global.total_score > 0:
-		Global.add_high_score(Global.total_score)
-
 	audio_stream_player.stop()
-	Global.save_game()
 	get_tree().quit()
 
 
@@ -86,6 +78,7 @@ func _on_ScoreUpdateTimer_timeout():
 	title.text = "High Scores"
 
 	Global.high_scores.invert()
+	Global.load_game()
 
-	for i in range(len(Global.high_scores)):
-		title.text += "\n" + str(i + 1) + ". " + str(Global.high_scores[i])
+	for high_score in Global.high_scores:
+		title.text += "\n" + high_score.name + " " + str(high_score.score)

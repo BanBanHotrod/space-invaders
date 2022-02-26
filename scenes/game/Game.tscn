@@ -30,14 +30,6 @@
 [ext_resource path="res://scenes/game/CookiesPool.gd" type="Script" id=28]
 [ext_resource path="res://entities/points/Cookie.tscn" type="PackedScene" id=29]
 
-[sub_resource type="DynamicFont" id=5]
-size = 36
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=6]
-size = 30
-font_data = ExtResource( 2 )
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 360, 10 )
 
@@ -50,8 +42,74 @@ extents = Vector2( 640, 10 )
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 640, 10 )
 
+[sub_resource type="DynamicFont" id=5]
+size = 36
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 30
+font_data = ExtResource( 2 )
+
 [node name="Root" type="Node2D"]
 script = ExtResource( 8 )
+
+[node name="Instances" type="Node2D" parent="."]
+
+[node name="Players" type="Node2D" parent="Instances"]
+position = Vector2( 640, 540 )
+
+[node name="PlayerBrandon" parent="Instances/Players" instance=ExtResource( 7 )]
+
+[node name="PlayerCarro" parent="Instances/Players" instance=ExtResource( 10 )]
+
+[node name="PlayerConrad" parent="Instances/Players" instance=ExtResource( 11 )]
+
+[node name="PlayerKyle" parent="Instances/Players" instance=ExtResource( 4 )]
+
+[node name="Effects" type="Node" parent="Instances"]
+
+[node name="EnemyEffect" type="AudioStreamPlayer" parent="Instances/Effects"]
+stream = ExtResource( 21 )
+
+[node name="PlayerEffect" type="AudioStreamPlayer" parent="Instances/Effects"]
+stream = ExtResource( 22 )
+
+[node name="AsteroidEffect" type="AudioStreamPlayer" parent="Instances/Effects"]
+stream = ExtResource( 23 )
+
+[node name="PointsEffect" type="AudioStreamPlayer" parent="Instances/Effects"]
+stream = ExtResource( 24 )
+
+[node name="Boundaries" type="StaticBody2D" parent="Instances"]
+collision_layer = 8
+collision_mask = 66
+
+[node name="BoundaryLeft" type="CollisionShape2D" parent="Instances/Boundaries" groups=["boundary"]]
+position = Vector2( -10, 360 )
+rotation = 1.5708
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[node name="BoundaryRight" type="CollisionShape2D" parent="Instances/Boundaries" groups=["boundary"]]
+position = Vector2( 1290, 360 )
+rotation = -1.5708
+shape = SubResource( 2 )
+
+[node name="BoundaryTop" type="CollisionShape2D" parent="Instances/Boundaries" groups=["boundary"]]
+position = Vector2( 640, -10 )
+rotation = 3.14159
+shape = SubResource( 3 )
+one_way_collision = true
+
+[node name="BoundaryBottom" type="CollisionShape2D" parent="Instances/Boundaries" groups=["boundary"]]
+position = Vector2( 640, 730 )
+shape = SubResource( 4 )
+
+[node name="Cookies" type="Node2D" parent="Instances"]
+script = ExtResource( 28 )
+cookie_scene = ExtResource( 29 )
+
+[node name="MusicPlayer" parent="." instance=ExtResource( 19 )]
 
 [node name="TheNarrator" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -61,35 +119,8 @@ asteroid = ExtResource( 20 )
 
 [node name="Timer" type="Timer" parent="TheNarrator"]
 
-[node name="MusicPlayer" parent="." instance=ExtResource( 19 )]
-
 [node name="ParallaxStars" parent="." instance=ExtResource( 9 )]
 speed_scale = 64.0
-
-[node name="Players" type="Node2D" parent="."]
-position = Vector2( 640, 540 )
-
-[node name="PlayerBrandon" parent="Players" instance=ExtResource( 7 )]
-
-[node name="PlayerCarro" parent="Players" instance=ExtResource( 10 )]
-
-[node name="PlayerConrad" parent="Players" instance=ExtResource( 11 )]
-
-[node name="PlayerKyle" parent="Players" instance=ExtResource( 4 )]
-
-[node name="Effects" type="Node" parent="."]
-
-[node name="EnemyEffect" type="AudioStreamPlayer" parent="Effects"]
-stream = ExtResource( 21 )
-
-[node name="PlayerEffect" type="AudioStreamPlayer" parent="Effects"]
-stream = ExtResource( 22 )
-
-[node name="AsteroidEffect" type="AudioStreamPlayer" parent="Effects"]
-stream = ExtResource( 23 )
-
-[node name="PointsEffect" type="AudioStreamPlayer" parent="Effects"]
-stream = ExtResource( 24 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 128
@@ -273,6 +304,7 @@ __meta__ = {
 [node name="Announcer" parent="HUD" instance=ExtResource( 18 )]
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
+pause_mode = 2
 
 [node name="Popup" type="Popup" parent="PauseMenu"]
 pause_mode = 2
@@ -355,36 +387,109 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Boundaries" type="StaticBody2D" parent="."]
-collision_layer = 8
-collision_mask = 66
+[node name="ScoreInput" type="CanvasLayer" parent="."]
+pause_mode = 2
 
-[node name="BoundaryLeft" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( -10, 360 )
-rotation = 1.5708
-shape = SubResource( 1 )
-one_way_collision_margin = 0.0
+[node name="Popup" type="Popup" parent="ScoreInput"]
+pause_mode = 2
+visible = true
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_pivot_offset = Vector2( 640, 360 )
+popup_exclusive = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="BoundaryRight" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( 1290, 360 )
-rotation = -1.5708
-shape = SubResource( 2 )
+[node name="VBoxContainer" type="VBoxContainer" parent="ScoreInput/Popup"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="BoundaryTop" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( 640, -10 )
-rotation = 3.14159
-shape = SubResource( 3 )
-one_way_collision = true
+[node name="Container" type="Control" parent="ScoreInput/Popup/VBoxContainer"]
+margin_right = 40.0
 
-[node name="BoundaryBottom" type="CollisionShape2D" parent="Boundaries" groups=["boundary"]]
-position = Vector2( 640, 730 )
-shape = SubResource( 4 )
+[node name="Title" type="Label" parent="ScoreInput/Popup/VBoxContainer/Container"]
+margin_left = 71.0
+margin_top = 71.0
+margin_right = 1231.0
+margin_bottom = 161.0
+theme = ExtResource( 27 )
+text = "NEW HIGH SCORE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Cookies" type="Node2D" parent="."]
-script = ExtResource( 28 )
-cookie_scene = ExtResource( 29 )
+[node name="Characters" type="Control" parent="ScoreInput/Popup/VBoxContainer/Container"]
+margin_left = 410.0
+margin_top = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Instances" type="Node2D" parent="."]
+[node name="Character1" type="Label" parent="ScoreInput/Popup/VBoxContainer/Container/Characters"]
+margin_right = 40.0
+margin_bottom = 14.0
+theme = ExtResource( 27 )
+text = "_"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Character2" type="Label" parent="ScoreInput/Popup/VBoxContainer/Container/Characters"]
+margin_left = 80.0
+theme = ExtResource( 27 )
+text = "_"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Character3" type="Label" parent="ScoreInput/Popup/VBoxContainer/Container/Characters"]
+margin_left = 160.0
+margin_right = 40.0
+margin_bottom = 14.0
+theme = ExtResource( 27 )
+text = "_"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Character4" type="Label" parent="ScoreInput/Popup/VBoxContainer/Container/Characters"]
+margin_left = 240.0
+margin_right = 40.0
+margin_bottom = 14.0
+theme = ExtResource( 27 )
+text = "_"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Character5" type="Label" parent="ScoreInput/Popup/VBoxContainer/Container/Characters"]
+margin_left = 320.0
+margin_right = 40.0
+margin_bottom = 14.0
+theme = ExtResource( 27 )
+text = "_"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Character6" type="Label" parent="ScoreInput/Popup/VBoxContainer/Container/Characters"]
+margin_left = 400.0
+margin_right = 40.0
+margin_bottom = 14.0
+theme = ExtResource( 27 )
+text = "_"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkTimer" type="Timer" parent="."]
+wait_time = 0.4
 
 [connection signal="pressed" from="PauseMenu/Popup/HBoxContainer/Container/Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="PauseMenu/Popup/HBoxContainer/Container/Quit" to="." method="_on_Main_Menu_pressed"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_BlinkTimer_timeout"]
