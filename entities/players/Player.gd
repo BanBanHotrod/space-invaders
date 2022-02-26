@@ -166,8 +166,8 @@ func spawn():
 	set_process_input(true)
 	enable_collisions()
 	enable_input()
-
 	weapon.set_process(true)
+	weapon.temperature = 0
 
 
 func despawn():
@@ -177,8 +177,8 @@ func despawn():
 	set_process_input(false)
 	disable_collisions()
 	disable_input()
-
 	weapon.set_process(false)
+	weapon.temperature = 0
 
 
 func enable_input():
