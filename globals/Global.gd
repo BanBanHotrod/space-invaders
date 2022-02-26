@@ -79,6 +79,7 @@ func reset():
 	enemy_health_multiplier = 1
 	wave_number = 0
 	enemy_attack_chance = 1000
+	weapon_level = 0
 
 
 func save():
