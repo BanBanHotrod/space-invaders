@@ -95,6 +95,7 @@ func move_left(delta):
 	var collision = move_and_collide(direction * joystick_speed * delta)
 
 	handle_collision(collision)
+	handle_oob()
 
 
 func move_right(delta):
@@ -102,6 +103,7 @@ func move_right(delta):
 	var collision = move_and_collide(direction * joystick_speed * delta)
 
 	handle_collision(collision)
+	handle_oob()
 
 
 func move_up(delta):
@@ -109,6 +111,7 @@ func move_up(delta):
 	var collision = move_and_collide(direction * joystick_speed * delta)
 
 	handle_collision(collision)
+	handle_oob()
 
 
 func move_down(delta):
@@ -116,6 +119,7 @@ func move_down(delta):
 	var collision = move_and_collide(direction * joystick_speed * delta)
 
 	handle_collision(collision)
+	handle_oob()
 
 
 func handle_collision(collision):
@@ -136,6 +140,17 @@ func handle_collision(collision):
 		if collider.is_in_group("points"):
 			Global.add_score(collider.score)
 			collider.die()
+
+
+func handle_oob():
+	if global_position.y < 0:
+		global_position.y = 0
+	if global_position.y > get_viewport_rect().size.y - 60:
+		global_position.y = get_viewport_rect().size.y - 60
+	if global_position.x < 0:
+		global_position.x = 0
+	if global_position.x > get_viewport_rect().size.x - 60:
+		global_position.x = get_viewport_rect().size.x - 60
 
 
 func move_to_cursor():
