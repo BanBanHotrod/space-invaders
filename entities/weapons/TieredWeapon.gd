@@ -1,18 +1,16 @@
 extends Weapon
 
-onready var overheat_timer = $OverheatTimer
-
-export(Array, float) var fire_rate_levels
 export(Array, PackedScene) var projectile_levels
-export(int) var max_temperature := 10000
+export(float) var max_temperature := 1.0
 
 var current_level := 0
 var overheat_time := 10
 var overheated := false
-var temperature := 0
-var temperature_gain := 1000
-var temperature_loss := 2000
-var temperature_overheat_loss := 1000
+var temperature := 0.0
+var temperature_gain := 2.0
+var temperature_gain_manual := 0.2
+var temperature_loss := 4
+var temperature_overheat_loss := 1
 
 signal weapon_temperature_changed(temperature, max_temperature)
 
@@ -20,22 +18,27 @@ signal weapon_temperature_changed(temperature, max_temperature)
 func _ready():
 	._ready()
 
-	if fire_rate_levels.size() > 0:
-		set_fire_rate(fire_rate_levels[current_level])
-
 
 func _process(delta):
-	if overheated:
-		temperature -= int(temperature_overheat_loss * delta)
+	if attacking:
+		temperature += temperature_gain * delta
+
+		if temperature >= max_temperature:
+			overheated = true
+			temperature = max_temperature
 	else:
-		temperature -= int(temperature_loss * delta)
-	emit_signal("weapon_temperature_changed", temperature, max_temperature)
-
-	if temperature <= 0:
 		if overheated:
-			overheated = false
+			temperature -= temperature_loss * delta
+		else:
+			temperature -= temperature_overheat_loss * delta
 
-		temperature = 0
+		if temperature <= 0:
+			if overheated:
+				overheated = false
+
+			temperature = 0
+
+	emit_signal("weapon_temperature_changed", temperature, max_temperature)
 
 
 func _spawn_projectile():
@@ -52,9 +55,6 @@ func _spawn_projectile():
 func set_level(level):
 	current_level = level
 
-	if current_level < fire_rate_levels.size():
-		set_fire_rate(fire_rate_levels[current_level])
-
 
 func upgrade():
 	if current_level >= projectile_levels.size() - 1:
@@ -68,19 +68,19 @@ func upgrade():
 	set_level(current_level + 1)
 
 
-func attack():
-	if cooldown > 0.0:
+func attack(first_attack = false):
+	if first_attack:
+		if manual_cooldown > 0.0:
+			return
+	elif cooldown > 0.0 or manual_cooldown > 0.0:
 		return
 
 	if overheated:
 		return
 
-	temperature += 1000
-
-	if temperature >= max_temperature:
-		overheated = true
-		temperature = max_temperature
+	if first_attack:
+		temperature += temperature_gain_manual
 
 	emit_signal("weapon_temperature_changed", temperature, max_temperature)
 
-	.attack()
+	.attack(first_attack)

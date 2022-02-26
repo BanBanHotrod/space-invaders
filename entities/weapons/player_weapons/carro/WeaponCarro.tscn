@@ -18,9 +18,11 @@
 
 [node name="WeaponCarro" type="Node2D"]
 script = ExtResource( 2 )
+automatic_fire_rate = 4.17
+manual_fire_rate = 6.25
 projectile = ExtResource( 3 )
-fire_rate_levels = [ 4.17 ]
 projectile_levels = [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 13 ) ]
+max_temperature = 12.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )

@@ -10,7 +10,7 @@ var reward_progress := 0
 var enemy_health_multiplier := 1
 var wave_number := 0
 var enemy_attack_chance := 1000  # roll amount (e.g. 100 = 1/100)
-var weapon_level := 11
+var weapon_level := 0
 var high_scores := []
 var first_launch := true
 

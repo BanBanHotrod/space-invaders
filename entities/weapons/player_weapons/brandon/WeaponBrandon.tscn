@@ -18,9 +18,11 @@
 
 [node name="WeaponBrandon" type="Node2D"]
 script = ExtResource( 1 )
+automatic_fire_rate = 2.85
+manual_fire_rate = 6.5
 projectile = ExtResource( 2 )
-fire_rate_levels = [ 2.65 ]
 projectile_levels = [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 14 ), ExtResource( 13 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 15 ) ]
+max_temperature = 20.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )

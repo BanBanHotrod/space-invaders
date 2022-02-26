@@ -54,6 +54,7 @@ func process_input(delta):
 func _connect_signals():
 	Global.root.connect("input_attack_start", self, "_on_attack_start")
 	Global.root.connect("input_attack_stop", self, "_on_attack_stop")
+	Global.root.connect("input_attack_once", self, "_on_attack_once")
 
 
 func _physics_process(_delta):

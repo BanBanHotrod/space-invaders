@@ -34,6 +34,7 @@ onready var weapon_temperature_bar = $HUD/UI/WeaponTemperature/Value
 signal root_initialized
 signal input_attack_start
 signal input_attack_stop
+signal input_attack_once
 
 
 func _ready():
@@ -247,3 +248,7 @@ func _on_spawn_cookie(position):
 
 func spawn_instance(scene_instance):
 	instances_root.add_child(scene_instance)
+
+
+func print_debug(message):
+	debug_event_text.text = message

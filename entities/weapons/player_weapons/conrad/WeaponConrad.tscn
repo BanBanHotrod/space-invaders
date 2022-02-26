@@ -18,9 +18,11 @@
 
 [node name="WeaponConrad" type="Node2D"]
 script = ExtResource( 2 )
+automatic_fire_rate = 4.55
+manual_fire_rate = 6.81
 projectile = ExtResource( 3 )
-fire_rate_levels = [ 4.0 ]
 projectile_levels = [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 9 ), ExtResource( 15 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 11 ) ]
+max_temperature = 10.5
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
