@@ -5,7 +5,7 @@ signal formation_cleared
 signal enemy_destroyed(destroyed_enemy, killed_by_player)
 
 export(Array, PackedScene) var pickups = []
-export(float) var entrance_speed := 500
+export(float) var entrance_speed := 50
 
 var vertical_speed := 10.0
 var horizontal_speed := 20.0
