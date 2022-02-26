@@ -322,6 +322,8 @@ margin_left = 941.0
 margin_top = 233.0
 margin_right = 1138.0
 margin_bottom = 285.0
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../Quit")
 theme = ExtResource( 26 )
 text = "RESUME"
 flat = true
@@ -330,14 +332,25 @@ __meta__ = {
 }
 
 [node name="Quit" type="Button" parent="PauseMenu/Popup/HBoxContainer/Container"]
-margin_left = 875.0
+margin_left = 866.0
 margin_top = 601.0
-margin_right = 1222.0
+margin_right = 1213.0
 margin_bottom = 653.0
+focus_next = NodePath("../Resume")
+focus_previous = NodePath("../Resume")
 theme = ExtResource( 26 )
 custom_fonts/font = SubResource( 6 )
-text = "Quit Game"
+text = "Main Menu"
 flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selected" type="ColorRect" parent="PauseMenu/Popup/HBoxContainer/Container"]
+margin_left = 940.0
+margin_top = 280.0
+margin_right = 1140.0
+margin_bottom = 286.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

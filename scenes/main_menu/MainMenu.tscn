@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://themes/pause_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/main_menu/buttons/MenuButton.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/main_menu/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://assets/music/Dishonest (8-bit).wav" type="AudioStream" id=5]
 [ext_resource path="res://themes/title_theme.tres" type="Theme" id=6]
+[ext_resource path="res://themes/main_theme.tres" type="Theme" id=7]
 
 [node name="MainMenu" type="Node2D" groups=["Persist"]]
 script = ExtResource( 4 )
@@ -20,7 +21,7 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 2265.0
+margin_bottom = 2223.0
 theme = ExtResource( 6 )
 text = "THE GREATEST
 
@@ -74,14 +75,13 @@ EVER
 
 
 
-
 "
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 2269.0
+margin_top = 2227.0
 margin_right = 1280.0
-margin_bottom = 2917.0
+margin_bottom = 2875.0
 custom_constants/separation = 130
 alignment = 1
 __meta__ = {
@@ -89,27 +89,37 @@ __meta__ = {
 }
 
 [node name="MenuOptions" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 115.0
-margin_right = 195.0
+margin_left = 12.0
+margin_right = 298.0
 margin_bottom = 648.0
 custom_constants/separation = 50
 alignment = 1
 
 [node name="Start" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
-margin_top = 271.0
+visible = false
+margin_top = 310.0
 margin_right = 80.0
-margin_bottom = 299.0
+margin_bottom = 338.0
 text = "Start"
 
 [node name="Quit" parent="VBoxContainer/HBoxContainer/MenuOptions" instance=ExtResource( 2 )]
+visible = false
 margin_top = 349.0
 margin_right = 80.0
 margin_bottom = 377.0
 text = "Quit"
 
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/MenuOptions"]
+margin_top = 276.0
+margin_right = 286.0
+margin_bottom = 371.0
+theme = ExtResource( 7 )
+text = "PRESS FIRE
+TO START"
+
 [node name="Title" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 325.0
-margin_right = 1165.0
+margin_left = 316.0
+margin_right = 1268.0
 margin_bottom = 648.0
 theme = ExtResource( 1 )
 text = "The Greatest

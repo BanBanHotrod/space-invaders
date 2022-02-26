@@ -35,6 +35,11 @@ func _ready():
 	_on_ScoreUpdateTimer_timeout()
 
 
+func _input(event):
+	if Input.is_action_pressed("ui_select"):
+		_on_Start_pressed()
+
+
 func _process(delta):
 	if not in_position:
 		if camera_2d.position.y < -360:

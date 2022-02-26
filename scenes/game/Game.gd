@@ -5,6 +5,9 @@ var current_player = null
 var players := []
 var weapon_temperature := 0
 var weapon_max_temperature := 0
+var show_pause_menu := false
+var selected_y_positions := [280, 650]
+var selected_y_position := 0
 
 onready var player_brandon = $Players/PlayerBrandon
 onready var player_carro = $Players/PlayerCarro
@@ -30,6 +33,7 @@ onready var debug_event_text = $HUD/UI/DebugEvent
 onready var the_narrator = $TheNarrator
 onready var instances_root = $Instances
 onready var weapon_temperature_bar = $HUD/UI/WeaponTemperature/Value
+onready var selected_menu_item = $PauseMenu/Popup/HBoxContainer/Container/Selected
 
 signal root_initialized
 signal input_attack_start
@@ -153,6 +157,25 @@ func process_input():
 		Global.reset()
 		_show_pause_menu()
 
+	if show_pause_menu:
+		if Input.is_action_pressed("ui_focus_prev"):
+			selected_y_position -= 1
+			if selected_y_position < 0:
+				selected_y_position = selected_y_positions.size() - 1
+			selected_menu_item.rect_position.y = selected_y_positions[selected_y_position]
+
+		if Input.is_action_pressed("ui_focus_next"):
+			selected_y_position += 1
+			if selected_y_position >= selected_y_positions.size():
+				selected_y_position = 0
+			selected_menu_item.rect_position.y = selected_y_positions[selected_y_position]
+
+		if Input.is_action_pressed("ui_select"):
+			if selected_y_position == 0:
+				_hide_pause_menu()
+			elif selected_y_position == 1:
+				_on_Main_Menu_pressed()
+
 
 func set_current_player(player):
 	var last_position = current_player.global_position
@@ -191,16 +214,18 @@ func _show_entities():
 
 
 func _hide_pause_menu():
+	show_pause_menu = false
 	_show_entities()
 	pause_popup.hide()
-	get_tree().paused = false
+	# get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 
 func _show_pause_menu():
+	show_pause_menu = true
 	_hide_entities()
 	pause_popup.show()
-	get_tree().paused = true
+	# get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
@@ -229,7 +254,14 @@ func _on_Main_Menu_pressed():
 		Global.add_high_score(Global.total_score)
 
 	Global.save_game()
-	get_tree().quit()
+	# get_tree().quit()
+	Global.reset()
+
+	var return_value := get_tree().change_scene("res://scenes/main_menu/MainMenu.tscn")
+
+	if return_value != OK:
+		print("Error changing scene:", return_value)
+		get_tree().quit()
 
 
 func _on_Resume_pressed():
