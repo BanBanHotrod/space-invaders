@@ -17,6 +17,7 @@ var grace := false
 var input_disabled := false
 var joystick_speed := 500.0
 var arcade_mode := true
+var dead := true
 
 
 func _ready():
@@ -58,6 +59,10 @@ func _physics_process(_delta):
 
 
 func die():
+	if dead:
+		return
+
+	dead = true
 	weapon.attack_stop()
 
 	total_lives -= 1
@@ -65,7 +70,7 @@ func die():
 	var death_effect_instance = death_effect.instance()
 
 	Global.root.spawn_instance(death_effect_instance)
-	death_effect_instance.position = position
+	death_effect_instance.global_position = global_position
 
 	Global.root.player_effect.play()
 
@@ -136,10 +141,6 @@ func move_to_cursor():
 	handle_collision(collision)
 
 
-func teleport_to_cursor():
-	position = get_global_mouse_position()
-
-
 func _on_attack_start():
 	if input_disabled:
 		return
@@ -155,6 +156,7 @@ func _on_attack_stop():
 
 
 func spawn():
+	dead = false
 	show()
 	set_process(true)
 	set_physics_process(true)

@@ -149,10 +149,17 @@ func process_input():
 
 
 func set_current_player(player):
-	current_player.weapon.attack_stop()
-	current_player.despawn()
+	var last_position = current_player.global_position
+	var previous_player = current_player
+
+	previous_player.weapon.attack_stop()
+	previous_player.despawn()
+
 	current_player = player
 	current_player.spawn()
+	current_player.global_position = last_position
+
+	previous_player.global_position = players_root.global_position
 
 	if current_player.total_lives <= 0:
 		current_player.total_lives = 1
@@ -192,15 +199,23 @@ func _show_pause_menu():
 
 
 func _on_Brandon_died():
+	player_brandon.global_position = players_root.global_position
 	ui_brandon_skull.show()
 
 
 func _on_Carro_died():
+	player_carro.global_position = players_root.global_position
 	ui_carro_skull.show()
 
 
 func _on_Conrad_died():
+	player_conrad.global_position = players_root.global_position
 	ui_conrad_skull.show()
+
+
+func _on_Kyle_died():
+	player_kyle.global_position = players_root.global_position
+	ui_kyle_skull.show()
 
 
 func _on_Main_Menu_pressed():
@@ -213,10 +228,6 @@ func _on_Main_Menu_pressed():
 
 func _on_Resume_pressed():
 	_hide_pause_menu()
-
-
-func _on_Kyle_died():
-	ui_kyle_skull.show()
 
 
 func _on_spawn_cookie(position):

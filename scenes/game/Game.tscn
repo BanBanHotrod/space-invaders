@@ -67,18 +67,15 @@ asteroid = ExtResource( 20 )
 speed_scale = 64.0
 
 [node name="Players" type="Node2D" parent="."]
+position = Vector2( 640, 540 )
 
 [node name="PlayerBrandon" parent="Players" instance=ExtResource( 7 )]
-position = Vector2( 640, 360 )
 
 [node name="PlayerCarro" parent="Players" instance=ExtResource( 10 )]
-position = Vector2( 640, 360 )
 
 [node name="PlayerConrad" parent="Players" instance=ExtResource( 11 )]
-position = Vector2( 640, 360 )
 
 [node name="PlayerKyle" parent="Players" instance=ExtResource( 4 )]
-position = Vector2( 640, 360 )
 
 [node name="Effects" type="Node" parent="."]
 
