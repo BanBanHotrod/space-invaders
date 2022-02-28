@@ -41,16 +41,8 @@ func _physics_process(delta):
 
 			collider.die()
 			die()
-		velocity = velocity.bounce(collision.normal)
 
-	if not entered_stage:
-		if position.y > 0:
-			entered_stage = true
-	else:
-		if position.x > get_viewport_rect().size.x or position.x < 0:
-			die()
-		if position.y > get_viewport_rect().size.y or position.y < 0:
-			die()
+		velocity = velocity.bounce(collision.normal)
 
 
 func take_damage(damage):
@@ -97,13 +89,6 @@ func die(killed_by_player = false):
 
 func move(move_velocity):
 	position += move_velocity
-	if position.y < 0:
-		disable_collision()
-	elif collision_disabled():
-		enable_collision()
-
-	if position.y > 720 + 100:
-		die(false)
 
 
 func collision_disabled():

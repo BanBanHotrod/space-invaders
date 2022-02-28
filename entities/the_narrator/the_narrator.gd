@@ -263,7 +263,7 @@ func create_asteroids(count):
 	for _i in count:
 		var asteroid_instance = asteroid.instance()
 
-		asteroid_instance.global_position = Vector2(640, -160)
+		asteroid_instance.global_position = Vector2(640, 100)
 		Global.root.spawn_instance(asteroid_instance)
 		Global.connect("asteroids_destroyed", self, "_on_asteroids_destroyed")
 
